@@ -1,0 +1,172 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://video_to_colorspace_extractor.gd" type="Script" id=1]
+
+[node name="VideoExtractor" type="Node"]
+script = ExtResource( 1 )
+preview_grid_path = NodePath("HBoxContainer/GridContainer")
+extract_button_path = NodePath("HBoxContainer/VBoxContainer/Extract")
+output_folder_text_path = NodePath("HBoxContainer/VBoxContainer/HBoxContainer2/OutputLine")
+output_folder_dialog_path = NodePath("OutputFolderDialog")
+input_folder_text_path = NodePath("HBoxContainer/VBoxContainer/HBoxContainer3/InputLine")
+input_folder_dialog_path = NodePath("InputFileDialog")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="."]
+margin_left = 62.0
+margin_top = 66.0
+margin_right = 40.0
+margin_bottom = 40.0
+custom_constants/separation = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
+margin_right = 202.0
+margin_bottom = 170.0
+
+[node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer"]
+margin_right = 202.0
+margin_bottom = 14.0
+text = "Palette From Video"
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 202.0
+margin_bottom = 42.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer4"]
+margin_top = 5.0
+margin_right = 116.0
+margin_bottom = 19.0
+text = "Color Space Name"
+
+[node name="ColorSpaceName" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer4"]
+margin_left = 120.0
+margin_right = 178.0
+margin_bottom = 24.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 46.0
+margin_right = 202.0
+margin_bottom = 66.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_top = 3.0
+margin_right = 63.0
+margin_bottom = 17.0
+text = "Algorithm"
+
+[node name="OptionButton" type="OptionButton" parent="HBoxContainer/VBoxContainer/HBoxContainer"]
+margin_left = 67.0
+margin_right = 96.0
+margin_bottom = 20.0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 70.0
+margin_right = 202.0
+margin_bottom = 94.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
+margin_top = 5.0
+margin_right = 74.0
+margin_bottom = 19.0
+text = "Input Video"
+
+[node name="InputLine" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 78.0
+margin_right = 136.0
+margin_bottom = 24.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="InputDir" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 140.0
+margin_right = 187.0
+margin_bottom = 24.0
+text = "Open"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 98.0
+margin_right = 202.0
+margin_bottom = 122.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_top = 5.0
+margin_right = 89.0
+margin_bottom = 19.0
+text = "Output Folder"
+
+[node name="OutputLine" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 93.0
+margin_right = 151.0
+margin_bottom = 24.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="OutputDir" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 155.0
+margin_right = 202.0
+margin_bottom = 24.0
+text = "Open"
+
+[node name="Extract" type="Button" parent="HBoxContainer/VBoxContainer"]
+margin_top = 126.0
+margin_right = 202.0
+margin_bottom = 146.0
+text = "Extract"
+
+[node name="Preview" type="Button" parent="HBoxContainer/VBoxContainer"]
+margin_top = 150.0
+margin_right = 202.0
+margin_bottom = 170.0
+text = "Preview Output"
+
+[node name="GridContainer" type="GridContainer" parent="HBoxContainer"]
+margin_left = 234.0
+margin_right = 234.0
+margin_bottom = 170.0
+columns = 8
+
+[node name="OutputFolderDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -178.0
+margin_top = -65.0
+margin_right = 178.0
+margin_bottom = 65.0
+rect_min_size = Vector2( 200, 200 )
+window_title = "Open a Directory"
+resizable = true
+mode = 2
+access = 2
+current_dir = "/Users/Yuzu/Documents/ImageToPaletteGenerator"
+current_path = "/Users/Yuzu/Documents/ImageToPaletteGenerator/"
+
+[node name="InputFileDialog" type="FileDialog" parent="."]
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+margin_left = -178.0
+margin_top = -65.0
+margin_right = 178.0
+margin_bottom = 65.0
+rect_min_size = Vector2( 200, 200 )
+window_title = "Open a File"
+resizable = true
+mode = 0
+access = 2
+current_dir = "/Users/Yuzu/Documents/ImageToPaletteGenerator"
+current_path = "/Users/Yuzu/Documents/ImageToPaletteGenerator/"
+
+[connection signal="text_changed" from="HBoxContainer/VBoxContainer/HBoxContainer4/ColorSpaceName" to="." method="_on_ColorSpaceName_text_changed"]
+[connection signal="text_changed" from="HBoxContainer/VBoxContainer/HBoxContainer3/InputLine" to="." method="_on_InputFolder_text_changed"]
+[connection signal="button_up" from="HBoxContainer/VBoxContainer/HBoxContainer3/InputDir" to="." method="_on_InputFolderDir_button_up"]
+[connection signal="text_changed" from="HBoxContainer/VBoxContainer/HBoxContainer2/OutputLine" to="." method="_on_OutputFolder_text_changed"]
+[connection signal="button_up" from="HBoxContainer/VBoxContainer/HBoxContainer2/OutputDir" to="." method="_on_OutputFolderDir_button_up"]
+[connection signal="button_up" from="HBoxContainer/VBoxContainer/Extract" to="." method="_on_Extract_button_up"]
+[connection signal="button_up" from="HBoxContainer/VBoxContainer/Preview" to="." method="_on_Preview_button_up"]
+[connection signal="dir_selected" from="OutputFolderDialog" to="." method="_on_OutputFolderDialog_dir_selected"]
+[connection signal="file_selected" from="InputFileDialog" to="." method="_on_InputFileDialog_file_selected"]
