@@ -1,19 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using Path = System.IO.Path;
 using Godot;
 using Godot.Collections;
 using ImageToPaletteGenerator;
 using MediaToolkit.Model;
 using MediaToolkit.Options;
-using PercetualColorSystem;
 using File = System.IO.File;
 
 public class VideoProcessor : FileProcessor, IProcessor
 {
 
-    private ImageProcessor _imageProcessor;
+    private readonly ImageProcessor _imageProcessor;
     
     public VideoProcessor()
     {
@@ -42,11 +40,11 @@ public class VideoProcessor : FileProcessor, IProcessor
     private void VideoToPalette(string path, string savePath)
     {
         var imagePaths = VideoToImages(path);
-        _imageProcessor.Process(tempImagesPath, tempPalettesPath, processingParams);
-        var palettePaths = _imageProcessor.ResultFilePaths;
+        var palettePaths = _imageProcessor.Process(imagePaths, savePath, processingParams);
         var colors = PaletteReader.LoadColorsFromFiles(palettePaths);
         var videoPalette = new ColorPalette(colors, new List<string> { "warm", "fun" });
         var videoPalettePath = WritePaletteToDisk(videoPalette, Path.GetFileNameWithoutExtension(path), savePath);
+        GD.Print(videoPalettePath);
         palettePaths.ForEach(File.Delete);
         imagePaths.ForEach(File.Delete);
         ResultFilePaths.Add(videoPalettePath);
@@ -59,12 +57,13 @@ public class VideoProcessor : FileProcessor, IProcessor
         List<string> tmpImagePaths = new List<string>();
         var inputFile = new MediaFile {Filename = path};
         var engine = new MediaToolkit.Engine();
+        GD.Print(engine, "using engine");
         engine.GetMetadata(inputFile);
         float interval = (float)processingParams["interval"];
         var totalFrames = Mathf.FloorToInt( (float) (inputFile.Metadata.Duration.TotalSeconds / interval));
         for (int i = 0; i < totalFrames; i++)
         {
-            var outputFilePath = tempImagesPath + Path.GetFileNameWithoutExtension(path) + i + ".jpg";
+            var outputFilePath = path + Path.GetFileNameWithoutExtension(path) + i + ".jpg";
             GD.PrintErr(outputFilePath);
             var outputFile = new MediaFile {Filename = outputFilePath};
             GD.Print("processing video", outputFilePath);
@@ -72,6 +71,7 @@ public class VideoProcessor : FileProcessor, IProcessor
             var options = new ConversionOptions { Seek = TimeSpan.FromSeconds(time) };
             engine.GetThumbnail(inputFile, outputFile, options);
             tmpImagePaths.Add(outputFilePath);
+            GD.Print(outputFilePath, " ", outputFile.Filename);
         }
         return tmpImagePaths;
         // Saves the frame located on the 15th second of the video.

@@ -10,20 +10,21 @@ public class ImageProcessor : FileProcessor, IProcessor
 
     private void ProcessImage(string path, string savePath)
     {
-        if (path.Extension() == "png" || path.Extension() == "jpeg" || path.Extension() == "jpg")
-        {
-            var palette = ImageToPalette(path);
-            var colorPalette = new ColorPalette(palette, new List<string> { "warm", "fun" });
-            var result = WritePaletteToDisk(colorPalette, Path.GetFileNameWithoutExtension(path), savePath);
-            ResultFilePaths.Add(result);
-            FilesProcessed++;
-        }
+        GD.PrintErr(savePath);
+        if (path.Extension() != "png" && path.Extension() != "jpeg" && path.Extension() != "jpg") return;
+        var palette = ImageToPalette(path);
+        GD.Print("got palette", palette.Count);
+        var colorPalette = new ColorPalette(palette, new List<string> { "warm", "fun" });
+        var result = WritePaletteToDisk(colorPalette, Path.GetFileNameWithoutExtension(path), savePath);
+        ResultFilePaths.Add(result);
+        FilesProcessed++;
     }
 
     private List<UberColor> ImageToPalette(string path)
     {
         var pixels = ImageUtility.GetImagePixels(path);
         var data =  ImageUtility.ColorToData(pixels);
+        GD.Print(data.Length, "image data");
         int minK = (int)processingParams["min_k"];
         int maxK = (int)processingParams["max_k"];
         var kMeans = GetKMeans(data, minK, maxK);
@@ -47,4 +48,18 @@ public class ImageProcessor : FileProcessor, IProcessor
         ProcessFolder(process, inputPath, outputPath);
         return ResultFilePaths;
     }
+    
+    public List<string> Process(List<string> filePaths, string outputPath, Dictionary args = null)
+    {
+        processingParams = args;
+        ResultFilePaths.Clear();
+        FilesProcessed = 0;
+        var process = new Process(ProcessImage);
+        foreach (var file in filePaths)
+        {
+            process(file, outputPath);
+        }
+        return ResultFilePaths;
+    }
+    
 }

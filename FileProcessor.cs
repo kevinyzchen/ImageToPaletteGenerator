@@ -11,17 +11,13 @@ using PercetualColorSystem;
 using Path = System.IO.Path;
 public class FileProcessor : Reference
     {
-        public const string tempImagesPath = @".temp\images\";
-        public const string tempPalettesPath = @".temp\palettes\";
-        public List<string> ResultFilePaths { get; private set; } = new List<string>();
+        protected List<string> ResultFilePaths { get; private set; } = new List<string>();
         protected Dictionary processingParams;
 
         protected delegate void Process(string inputPath, string outputPath);
         protected int FilesProcessed;
-
         protected int TotalFiles;
         protected float Progress;
-        
         
         protected void ProcessFolder( Process processFunction, String inputPath, string outputPath) {
             Directory dir = new Directory();
@@ -36,7 +32,6 @@ public class FileProcessor : Reference
                 processFunction(file, outputPath);
             }
         }
-
         public System.Collections.Generic.Dictionary<string, List<Color>> Preview()
         {
             System.Collections.Generic.Dictionary<string, List<Color>> colorsFromFiles = new System.Collections.Generic.Dictionary<string, List<Color>>();
