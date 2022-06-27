@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Numerics;
 
 namespace ML
 {
@@ -9,13 +10,13 @@ namespace ML
         public int X, Y, Z, ClusterId;
         public DBPoint(int x, int y, int z)
         {
-            this.X = x;
-            this.Y = y;
-            this.Y = z;
+            X = x;
+            Y = y;
+            Z = z;
         }
         public override string ToString()
         {
-            return String.Format("({0}, {1})", X, Y, Z);
+            return $"({X}, {Y}, {Z})";
         }
         public static int DistanceSquared(DBPoint p1, DBPoint p2)
         {

@@ -75,22 +75,21 @@ namespace ImageToPaletteGenerator
                 DBPoint newPoint = new DBPoint(L,a,b);
                 points.Add(newPoint);
             }
-            
-            double eps = 10;
-            int minPts = 3;
-            var clusters = DBScan.GetClusters(points, 10, 3);
+            double eps = (float)ProcessingParams["eps"];
+            int minPts = (int)ProcessingParams["min_pts"];
+            var clusters = DBScan.GetClusters(points, eps, minPts);
+            GD.PrintErr(clusters.Count, "count");
             List<UberColor> representativeColors = new List<UberColor>();
             foreach (var pointsList in clusters)
             {
                 Random rng = new Random();
                 var num = rng.Next(0, pointsList.Count);
                 DBPoint chosenPoint = pointsList[num];
-                representativeColors.Add(new UberColor(new Lab(chosenPoint.X, chosenPoint.Y,chosenPoint.Z)));
+                representativeColors.Add(new UberColor(new Lab(chosenPoint.X/1000.0, chosenPoint.Y/1000.0,chosenPoint.Z/1000.0)));
             }
             return representativeColors;
             //need to choose a different color from clusters as representative clusters..
         }
-
 
         public List<string> Process(string imagePath, string outputPath, Dictionary args = null)
         {
@@ -103,7 +102,6 @@ namespace ImageToPaletteGenerator
 
         public List<string> Process(List<string> filePaths, string outputPath, Dictionary args = null)
         {
-            Debug.Assert(args.Contains("METHOD"), "No method was passed for image processing");
             ProcessingParams = args;
             ProcessResultFilePaths.Clear();
             FilesProcessed = 0;

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using Path = System.IO.Path;
 using Godot;
 using Godot.Collections;
@@ -22,6 +23,7 @@ namespace ImageToPaletteGenerator
 
         public List<string> Process(string imagePath, string outputPath, Dictionary args = null)
         {
+            Debug.Assert(args.Contains("METHOD"), "No method was passed for image processing");
             ProcessingParams = args;
             ProcessResultFilePaths.Clear();
             FilesProcessed = 0;

@@ -3,7 +3,7 @@ using System.Linq;
 
 namespace ML
 {
-    public static class DBScan
+       public static class DBScan
     {
         public static List<List<DBPoint>> GetClusters(List<DBPoint> points, double eps, int minPts)
         {
@@ -19,7 +19,7 @@ namespace ML
                     if (ExpandCluster(points, p, clusterId, eps, minPts)) clusterId++;
                 }
             }
-            // sort out points into their clusters, if any
+            // sort out DBPoints into their clusters, if any
             int maxClusterId = points.OrderBy(p => p.ClusterId).Last().ClusterId;
             if (maxClusterId < 1) return clusters; // no clusters, so list is empty
             for (int i = 0; i < maxClusterId; i++) clusters.Add(new List<DBPoint>());
@@ -42,12 +42,12 @@ namespace ML
         public static bool ExpandCluster(List<DBPoint> points, DBPoint p, int clusterId, double eps, int minPts)
         {
             List<DBPoint> seeds = GetRegion(points, p, eps);
-            if (seeds.Count < minPts) // no core point
+            if (seeds.Count < minPts) // no core DBPoint
             {
                 p.ClusterId = DBPoint.NOISE;
                 return false;
             }
-            else // all points in seeds are density reachable from point 'p'
+            else // all DBPoints in seeds are density reachable from DBPoint 'p'
             {
                 for (int i = 0; i < seeds.Count; i++) seeds[i].ClusterId = clusterId;
                 seeds.Remove(p);

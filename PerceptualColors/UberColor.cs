@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using Godot;
 using Newtonsoft.Json;
 
@@ -16,7 +15,6 @@ namespace PercetualColors
             Color = color;
             Hsl = hsl;
             Lab = lab;
-            Position = new Vector2((float)Hsl.S * 1f, (float)Hsl.L * 1f);
         }
 
         public UberColor(Color color)
@@ -25,7 +23,6 @@ namespace PercetualColors
             var sRgb = new sRGB(color.r, color.g, color.b);
             Hsl = ColorConversion.SrgbToOkhsl(sRgb);
             Lab = ColorConversion.LinearSrgbToOklab(sRgb);
-            Position = new Vector2((float)Hsl.S * 1f, (float)Hsl.L * 1f);
         }
 
         public UberColor(HSL hsl)
@@ -34,7 +31,6 @@ namespace PercetualColors
             var sRgb = ColorConversion.OkhslToSrgb(hsl);
             _color = new Color((float)sRgb.R, (float)sRgb.G, (float)sRgb.B);
             Lab = ColorConversion.OkhslToLab(Hsl);
-            Position = new Vector2((float)Hsl.S * 1f, (float)Hsl.L * 1f);
         }
 
         public UberColor(Lab lab)
@@ -43,7 +39,6 @@ namespace PercetualColors
             var sRgb = ColorConversion.OklabToLinearSrgb(lab);
             _color = new Color((float)sRgb.R, (float)sRgb.G, (float)sRgb.B);
             Hsl = ColorConversion.LabToHSL(Lab);
-            Position = new Vector2((float)Hsl.S * 1f, (float)Hsl.L * 1f);
         }
 
         public UberColor(string hex)
@@ -53,10 +48,8 @@ namespace PercetualColors
             var sRgb = new sRGB(_color.r, _color.g, _color.b);
             Hsl = ColorConversion.SrgbToOkhsl(sRgb);
             Lab = ColorConversion.LinearSrgbToOklab(sRgb);
-            Position = new Vector2((float)Hsl.S * 1f, (float)Hsl.L * 1f);
         }
 
-        public Vector2 Position { get; set; }
 
         public Color Color
         {
@@ -68,18 +61,13 @@ namespace PercetualColors
 
         public Lab Lab { get; set; }
 
-        public void Randomize()
-        {
-            throw new NotImplementedException();
-        }
-
         public UberColor GetClosestColor(List<UberColor> collection)
         {
             var closestDist = double.MaxValue;
             var closestColor = new UberColor(Colors.White);
             foreach (var i in collection)
             {
-                var distance = Lab.DistanceTo(i.Lab);
+                var distance = Lab.SquaredDistanceTo(i.Lab);
                 if (distance < closestDist)
                 {
                     closestDist = distance;
