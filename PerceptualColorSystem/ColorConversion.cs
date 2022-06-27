@@ -278,17 +278,17 @@ namespace PercetualColorSystem
 
             var lab = LinearSrgbToOklab(rgb);
 
-            double L = lab.L;
+            var L = lab.L;
             var eps = 0.00001f;
-            double C = Math.Max(eps, Math.Sqrt(lab.a * lab.a + lab.b * lab.b));
-            double a_ = lab.a / C;
-            double b_ = lab.b / C;
+            var C = Math.Max(eps, Math.Sqrt(lab.a * lab.a + lab.b * lab.b));
+            var a_ = lab.a / C;
+            var b_ = lab.b / C;
 
-            double L0 = Clamp(L, 0d, 1d);
+            var L0 = Clamp(L, 0d, 1d);
 
             var t = FindGamutIntersection(a_, b_, L, C, L0);
-            double L_clipped = L0 * (1 - t) + t * L;
-            double C_clipped = t * C;
+            var L_clipped = L0 * (1 - t) + t * L;
+            var C_clipped = t * C;
 
             return OklabToLinearSrgb(new Lab(L_clipped, C_clipped * a_, C_clipped * b_));
         }
@@ -348,19 +348,19 @@ namespace PercetualColorSystem
 
             var lab = LinearSrgbToOklab(rgb);
 
-            double L = lab.L;
+            var L = lab.L;
             var eps = 0.00001f;
-            double C = Math.Max(eps, Math.Sqrt(lab.a * lab.a + lab.b * lab.b));
-            double a_ = lab.a / C;
-            double b_ = lab.b / C;
+            var C = Math.Max(eps, Math.Sqrt(lab.a * lab.a + lab.b * lab.b));
+            var a_ = lab.a / C;
+            var b_ = lab.b / C;
 
-            double Ld = L - 0.5f;
-            double e1 = 0.5f + Math.Abs(Ld) + alpha * C;
-            double L0 = 0.5f * (1.0f + Sign(Ld) * (e1 - Math.Sqrt(e1 * e1 - 2.0f * Math.Abs(Ld))));
+            var Ld = L - 0.5f;
+            var e1 = 0.5f + Math.Abs(Ld) + alpha * C;
+            var L0 = 0.5f * (1.0f + Sign(Ld) * (e1 - Math.Sqrt(e1 * e1 - 2.0f * Math.Abs(Ld))));
 
-            double t = FindGamutIntersection(a_, b_, L, C, L0);
-            double L_clipped = L0 * (1.0f - t) + t * L;
-            double C_clipped = t * C;
+            var t = FindGamutIntersection(a_, b_, L, C, L0);
+            var L_clipped = L0 * (1.0f - t) + t * L;
+            var C_clipped = t * C;
 
             return OklabToLinearSrgb(new Lab(L_clipped, C_clipped * a_, C_clipped * b_));
         }
@@ -372,11 +372,11 @@ namespace PercetualColorSystem
 
             var lab = LinearSrgbToOklab(rgb);
 
-            double L = lab.L;
-            double eps = 0.00001d;
-            double C = Math.Max(eps, Math.Sqrt(lab.a * lab.a + lab.b * lab.b));
-            double a_ = lab.a / C;
-            double b_ = lab.b / C;
+            var L = lab.L;
+            var eps = 0.00001d;
+            var C = Math.Max(eps, Math.Sqrt(lab.a * lab.a + lab.b * lab.b));
+            var a_ = lab.a / C;
+            var b_ = lab.b / C;
 
             // The cusp is computed here and in find_gamut_intersection, an optimized solution would only compute it once.
             var cusp = FindCusp(a_, b_);
@@ -414,7 +414,7 @@ namespace PercetualColorSystem
         {
             var L = cusp.L;
             var C = cusp.C;
-            return new ST { S = C / L, T = C / (1.0f + Double.Epsilon - L) };
+            return new ST { S = C / L, T = C / (1.0f + double.Epsilon - L) };
         }
 
         // Returns a smooth approximation of the location of the cusp
@@ -673,19 +673,19 @@ namespace PercetualColorSystem
 
         private static double Cbrtd(double number)
         {
-            return Math.Pow(number,  (1d / 3d));
+            return Math.Pow(number, 1d / 3d);
         }
 
         public static T Clamp<T>(this T val, T min, T max) where T : IComparable<T>
         {
             if (val.CompareTo(min) < 0) return min;
-            else if(val.CompareTo(max) > 0) return max;
+            else if (val.CompareTo(max) > 0) return max;
             else return val;
         }
 
         public static HSV SrgbToOkhsv(sRGB rgb)
         {
-            var lab = LinearSrgbToOklab(new sRGB(rgb.R,rgb.G,rgb.B));
+            var lab = LinearSrgbToOklab(new sRGB(rgb.R, rgb.G, rgb.B));
 
             var C = Math.Sqrt(lab.a * lab.a + lab.b * lab.b);
             var a_ = lab.a / C;
@@ -725,7 +725,7 @@ namespace PercetualColorSystem
             var v = L / L_v;
             var s = (S_0 + T_max) * C_v / (T_max * S_0 + T_max * k * C_v);
 
-            return new HSV (h,s,v);
+            return new HSV(h, s, v);
         }
     }
 }
