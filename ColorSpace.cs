@@ -17,7 +17,11 @@ namespace ImageToPaletteGenerator
             Tags = tags;
         }
         public List<UberColor> Colors { get; }
-        public List<List<UberColor>> colorGroups { get;}
+
+        /// <summary>
+        /// The palette from each individual frame/image
+        /// </summary>
+        public Dictionary<string, List<UberColor>> colorSpaceGroups;
         public List<string> Tags { get; }
         public string Name { get; }
     }

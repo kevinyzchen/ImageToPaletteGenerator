@@ -5,6 +5,6 @@ namespace ImageToPaletteGenerator
 {
     public interface IProcessor
     {
-        List<string> Process(string imagePath, string outputPath, Dictionary args = null);
+        List<string> Process(string inputPath, string outputPath, Dictionary args = null);
     }
 }

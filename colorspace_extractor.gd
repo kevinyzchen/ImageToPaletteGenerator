@@ -14,7 +14,6 @@ onready var preview_grid : GridContainer = get_node(preview_grid_path)
 export(NodePath) var extract_button_path
 onready var extract_button = get_node(extract_button_path)
 
-
 export(NodePath) var output_folder_text_path
 onready var output_folder_text : LineEdit = get_node(output_folder_text_path)
 

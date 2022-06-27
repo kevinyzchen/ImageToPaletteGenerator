@@ -2,6 +2,9 @@
 
 namespace PercetualColors
 {
+    /// <summary>
+    /// 
+    /// </summary>
     public static class ColorConversion
     {
         private const double Pi = 3.1415926535897932384626433832795028841971693993751058209749445923078164062f;

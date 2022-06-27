@@ -15,7 +15,6 @@ namespace ImageToPaletteGenerator
             return GetImagePixels(imageTexture);
         }
 
-
         private static UberColor[,] GetImagePixels(ImageTexture image)
         {
             var height = image.GetHeight();
