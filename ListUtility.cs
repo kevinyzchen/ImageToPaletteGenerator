@@ -15,5 +15,6 @@ namespace ImageToPaletteGenerator
                 (ts[i], ts[r]) = (ts[r], ts[i]);
             }
         }
+        
     }
 }

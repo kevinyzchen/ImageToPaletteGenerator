@@ -15,18 +15,6 @@ namespace ImageToPaletteGenerator
             return GetImagePixels(imageTexture);
         }
 
-        public static double[][] ColorToData(UberColor[,] pixels)
-        {
-            var data = new double[pixels.Length][];
-            var counter = 0;
-            foreach (var i in pixels)
-            {
-                data[counter] = new[] { i.Lab.L, i.Lab.a, i.Lab.b };
-                counter++;
-            }
-
-            return data;
-        }
 
         private static UberColor[,] GetImagePixels(ImageTexture image)
         {

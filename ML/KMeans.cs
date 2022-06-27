@@ -304,6 +304,7 @@ namespace ML
         return sum;
     }
 
+    
     // display functions for debugging
 
     //private static void ShowVector(int[] vec, int wid)  // debugging use
