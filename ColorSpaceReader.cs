@@ -6,12 +6,12 @@ using Path = System.IO.Path;
 
 namespace ImageToPaletteGenerator
 {
-    public class PaletteReader
+    public static class ColorSpaceReader
     {
-        private static string _colorLibraryFolderPath = "res://Data/";
+        private static readonly string _colorLibraryFolderPath = "res://Data/";
 
         public static Dictionary<string, List<UberColor>> GetLibrary() {
-            Dictionary<string, List<UberColor>> colorLibrary = new Dictionary<string, List<UberColor>>();
+            var colorLibrary = new Dictionary<string, List<UberColor>>();
             var dir = new Directory();
             dir.Open(_colorLibraryFolderPath);
             dir.ListDirBegin();
@@ -32,9 +32,9 @@ namespace ImageToPaletteGenerator
             var file = new File();
             file.Open(path, File.ModeFlags.Read);
             string fileText= file.GetAsText();
-            ColorPalette output = JsonConvert.DeserializeObject<ColorPalette>(fileText);
+            ColorSpace output = JsonConvert.DeserializeObject<ColorSpace>(fileText);
             if (output != null)
-                foreach (var color in output.MainColors) {
+                foreach (var color in output.Colors) {
                     fileColors.Add(color);
                 }
             file.Close();
