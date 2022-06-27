@@ -9,7 +9,7 @@ func _ready():
 	print(processor)
 	
 func _process_data():
-	processor.Process(input_path, output_path, {"min_k" : 3, "max_k" : 12, "interval" : 20.0})
+	processor.Process(input_path, output_path, {"min_k" : 3, "max_k" : 12, "interval" : 40.0, "threshold" : .1})
 
 func _on_InputFileDialog_file_selected(path):
 	input_path = path

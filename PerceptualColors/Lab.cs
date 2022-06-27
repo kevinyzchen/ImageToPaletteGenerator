@@ -1,8 +1,6 @@
-﻿using System;
-using System.Numerics;
-using ImageToPaletteGenerator;
+﻿using System.Numerics;
 
-namespace PercetualColorSystem
+namespace PercetualColors
 {
     public class Lab
     {

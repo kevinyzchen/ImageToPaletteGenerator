@@ -1,9 +1,8 @@
 ﻿
 using System;
 using System.Numerics;
-using ImageToPaletteGenerator;
 
-namespace PercetualColorSystem
+namespace PercetualColors
 {
     public class HSV
 {

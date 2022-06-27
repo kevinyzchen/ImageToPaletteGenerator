@@ -1,5 +1,4 @@
-﻿
-namespace PercetualColorSystem
+﻿namespace PercetualColors
 {
     public class sRGB
     {

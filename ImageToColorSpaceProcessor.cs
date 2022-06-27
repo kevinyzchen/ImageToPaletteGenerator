@@ -1,11 +1,11 @@
 using System.Collections.Generic;
 using ImageToPaletteGenerator;
-using PercetualColorSystem;
+using PercetualColors;
 using Path = System.IO.Path;
 using Godot;
 using Godot.Collections;
 
-public class ImageProcessor : FileProcessor, IProcessor
+public class ImageToColorSpaceProcessor : FileProcessor, IProcessor
 {
     private void ProcessImage(string path, string savePath)
     {

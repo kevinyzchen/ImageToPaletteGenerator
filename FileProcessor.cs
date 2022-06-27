@@ -6,8 +6,9 @@ using Godot;
 using Godot.Collections;
 using ImageToPaletteGenerator;
 using Kneedle;
+using ML;
 using Newtonsoft.Json;
-using PercetualColorSystem;
+using PercetualColors;
 using Path = System.IO.Path;
 public class FileProcessor : Reference
     {
@@ -37,7 +38,7 @@ public class FileProcessor : Reference
             System.Collections.Generic.Dictionary<string, List<Color>> colorsFromFiles = new System.Collections.Generic.Dictionary<string, List<Color>>();
             foreach (var file in ResultFilePaths)
             {
-                List<UberColor> colors = PaletteReader.LoadColorsFromFile(file);
+                List<UberColor> colors = ColorSpaceReader.LoadColorsFromFile(file);
                 List<Color> gdColors = colors.Select(o => o.Color).ToList();
                 colorsFromFiles.Add(Path.GetFileNameWithoutExtension(file), gdColors);
             }
@@ -60,7 +61,7 @@ public class FileProcessor : Reference
         }
         
         
-        protected string WritePaletteToDisk(ColorPalette colorPalette, String name, String path) {
+        protected string WritePaletteToDisk(ColorSpace colorPalette, String name, String path) {
             var file = new File();
             var savePath = path + "colors_"+ name + ".json";
             file.Open(savePath, File.ModeFlags.Write);
@@ -89,7 +90,6 @@ public class FileProcessor : Reference
 
             var k = KneedleAlgorithm.CalculateKneePoints(x, y, CurveDirection.Decreasing, Curvature.Counterclockwise);
             Debug.Assert(k != null, nameof(k) + " != null");
-            GD.PrintErr("chosen", k);
             var chosenKMeans = kMeansFromK[Mathf.FloorToInt((float)k)];
             return chosenKMeans;
         }

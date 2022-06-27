@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using Godot;
 using Newtonsoft.Json;
 
-namespace PercetualColorSystem
+namespace PercetualColors
 {
     public class UberColor
     {

@@ -8,7 +8,7 @@ preview_grid_path = NodePath("HBoxContainer/GridContainer")
 extract_button_path = NodePath("HBoxContainer/VBoxContainer/Extract")
 output_folder_text_path = NodePath("HBoxContainer/VBoxContainer/HBoxContainer2/OutputLine")
 output_folder_dialog_path = NodePath("OutputFolderDialog")
-input_folder_text_path = NodePath("HBoxContainer/VBoxContainer/HBoxContainer3/InputLine")
+input_folder_text_path = NodePath("HBoxContainer/VBoxContainer/HBoxContainer5/InputLine")
 input_folder_dialog_path = NodePath("InputFileDialog")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="."]
@@ -20,7 +20,7 @@ custom_constants/separation = 32
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer"]
 margin_right = 202.0
-margin_bottom = 170.0
+margin_bottom = 226.0
 
 [node name="Label2" type="Label" parent="HBoxContainer/VBoxContainer"]
 margin_right = 202.0
@@ -68,27 +68,59 @@ margin_bottom = 94.0
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
 margin_top = 5.0
+margin_right = 36.0
+margin_bottom = 19.0
+text = "Min K"
+
+[node name="SpinBox" type="SpinBox" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
+margin_left = 40.0
+margin_right = 114.0
+margin_bottom = 24.0
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 98.0
+margin_right = 202.0
+margin_bottom = 122.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer6"]
+margin_top = 5.0
+margin_right = 38.0
+margin_bottom = 19.0
+text = "Max K"
+
+[node name="SpinBox" type="SpinBox" parent="HBoxContainer/VBoxContainer/HBoxContainer6"]
+margin_left = 42.0
+margin_right = 116.0
+margin_bottom = 24.0
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
+margin_top = 126.0
+margin_right = 202.0
+margin_bottom = 150.0
+
+[node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer5"]
+margin_top = 5.0
 margin_right = 74.0
 margin_bottom = 19.0
 text = "Input Video"
 
-[node name="InputLine" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
+[node name="InputLine" type="LineEdit" parent="HBoxContainer/VBoxContainer/HBoxContainer5"]
 margin_left = 78.0
 margin_right = 136.0
 margin_bottom = 24.0
 caret_blink = true
 caret_blink_speed = 0.5
 
-[node name="InputDir" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer3"]
+[node name="InputDir" type="Button" parent="HBoxContainer/VBoxContainer/HBoxContainer5"]
 margin_left = 140.0
 margin_right = 187.0
 margin_bottom = 24.0
 text = "Open"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/VBoxContainer"]
-margin_top = 98.0
+margin_top = 154.0
 margin_right = 202.0
-margin_bottom = 122.0
+margin_bottom = 178.0
 
 [node name="Label" type="Label" parent="HBoxContainer/VBoxContainer/HBoxContainer2"]
 margin_top = 5.0
@@ -110,21 +142,21 @@ margin_bottom = 24.0
 text = "Open"
 
 [node name="Extract" type="Button" parent="HBoxContainer/VBoxContainer"]
-margin_top = 126.0
+margin_top = 182.0
 margin_right = 202.0
-margin_bottom = 146.0
+margin_bottom = 202.0
 text = "Extract"
 
 [node name="Preview" type="Button" parent="HBoxContainer/VBoxContainer"]
-margin_top = 150.0
+margin_top = 206.0
 margin_right = 202.0
-margin_bottom = 170.0
+margin_bottom = 226.0
 text = "Preview Output"
 
 [node name="GridContainer" type="GridContainer" parent="HBoxContainer"]
 margin_left = 234.0
 margin_right = 234.0
-margin_bottom = 170.0
+margin_bottom = 226.0
 columns = 8
 
 [node name="OutputFolderDialog" type="FileDialog" parent="."]
@@ -141,8 +173,8 @@ window_title = "Open a Directory"
 resizable = true
 mode = 2
 access = 2
-current_dir = "/Users/Yuzu/Documents/ImageToPaletteGenerator"
-current_path = "/Users/Yuzu/Documents/ImageToPaletteGenerator/"
+current_dir = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator"
+current_path = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator/"
 
 [node name="InputFileDialog" type="FileDialog" parent="."]
 anchor_left = 0.5
@@ -158,12 +190,12 @@ window_title = "Open a File"
 resizable = true
 mode = 0
 access = 2
-current_dir = "/Users/Yuzu/Documents/ImageToPaletteGenerator"
-current_path = "/Users/Yuzu/Documents/ImageToPaletteGenerator/"
+current_dir = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator"
+current_path = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator/"
 
 [connection signal="text_changed" from="HBoxContainer/VBoxContainer/HBoxContainer4/ColorSpaceName" to="." method="_on_ColorSpaceName_text_changed"]
-[connection signal="text_changed" from="HBoxContainer/VBoxContainer/HBoxContainer3/InputLine" to="." method="_on_InputFolder_text_changed"]
-[connection signal="button_up" from="HBoxContainer/VBoxContainer/HBoxContainer3/InputDir" to="." method="_on_InputFolderDir_button_up"]
+[connection signal="text_changed" from="HBoxContainer/VBoxContainer/HBoxContainer5/InputLine" to="." method="_on_InputFolder_text_changed"]
+[connection signal="button_up" from="HBoxContainer/VBoxContainer/HBoxContainer5/InputDir" to="." method="_on_InputFolderDir_button_up"]
 [connection signal="text_changed" from="HBoxContainer/VBoxContainer/HBoxContainer2/OutputLine" to="." method="_on_OutputFolder_text_changed"]
 [connection signal="button_up" from="HBoxContainer/VBoxContainer/HBoxContainer2/OutputDir" to="." method="_on_OutputFolderDir_button_up"]
 [connection signal="button_up" from="HBoxContainer/VBoxContainer/Extract" to="." method="_on_Extract_button_up"]

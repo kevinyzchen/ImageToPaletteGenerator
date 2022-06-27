@@ -6,24 +6,25 @@ using Godot.Collections;
 using ImageToPaletteGenerator;
 using MediaToolkit.Model;
 using MediaToolkit.Options;
+using PercetualColors;
 using File = System.IO.File;
 
-public class VideoProcessor : FileProcessor, IProcessor
+public class VideoToColorSpaceProcessor : FileProcessor, IProcessor
 {
 
-    private readonly ImageProcessor _imageProcessor;
+    private readonly ImageToColorSpaceProcessor _imageToColorSpaceProcessor;
     
-    public VideoProcessor()
+    public VideoToColorSpaceProcessor()
     {
-        _imageProcessor = new ImageProcessor();
+        _imageToColorSpaceProcessor = new ImageToColorSpaceProcessor();
     }
 
-    public List<string> Process(string inputPath, string outputPath, Dictionary args = null)
+    public List<string> Process(string imagePath, string outputPath, Dictionary args = null)
     {
         processingParams = args;
         ResultFilePaths.Clear();
         FilesProcessed = 0;
-        ProcessVideo(inputPath, outputPath);
+        ProcessVideo(imagePath, outputPath);
         return ResultFilePaths;
     }
 
@@ -40,9 +41,38 @@ public class VideoProcessor : FileProcessor, IProcessor
     private void VideoToPalette(string path, string savePath)
     {
         var imagePaths = VideoToImages(path);
-        var palettePaths = _imageProcessor.Process(imagePaths, savePath, processingParams);
-        var colors = PaletteReader.LoadColorsFromFiles(palettePaths);
-        var videoPalette = new ColorPalette(colors, new List<string> { "warm", "fun" });
+        var palettePaths = _imageToColorSpaceProcessor.Process(imagePaths, savePath, processingParams);
+        var colors = ColorSpaceReader.LoadColorsFromFiles(palettePaths);
+        
+        //Filter colors for distance
+        var shuffled = new List<UberColor>(colors);
+        shuffled.Shuffle();
+        var remainingColors = new Queue<UberColor>(shuffled);
+        var selectedColors = new List<UberColor>();
+        while(remainingColors.Count > 0)
+        {
+            UberColor checkingColor = remainingColors.Dequeue();
+            if (remainingColors.Count == 1)
+            {
+                selectedColors.Add(checkingColor);
+                break;
+            }
+            var compareColors = new List<UberColor>(remainingColors);
+            compareColors.Remove(checkingColor);
+           bool success = true;
+           foreach (var compareColor in compareColors)
+           {
+               float dist = (float)checkingColor.Hsl.DistanceTo(compareColor.Hsl);
+               if (dist < (float)processingParams["threshold"])
+               {
+                   success = false;
+                   break;
+               }
+           }
+           if (success) selectedColors.Add(checkingColor);
+        }
+        
+        var videoPalette = new ColorSpace(selectedColors, new List<string> { "warm", "fun" }, "random name");
         var videoPalettePath = WritePaletteToDisk(videoPalette, Path.GetFileNameWithoutExtension(path), savePath);
         GD.Print(videoPalettePath);
         palettePaths.ForEach(File.Delete);

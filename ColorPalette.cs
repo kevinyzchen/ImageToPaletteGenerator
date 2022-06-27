@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using PercetualColorSystem;
+using PercetualColors;
+
 
 namespace ImageToPaletteGenerator
 {

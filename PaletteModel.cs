@@ -1,8 +1,11 @@
 ﻿using System.Collections.Generic;
-using PercetualColorSystem;
+using PercetualColors;
 
 namespace ImageToPaletteGenerator
 {
+    /// <summary>
+    /// Used to predict palettes
+    /// </summary>
     public class PaletteModel
     {
         private Dictionary<UberColor, Dictionary<UberColor, float>> colorCohesionMap;

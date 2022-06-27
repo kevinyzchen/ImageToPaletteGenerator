@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace ImageToPaletteGenerator
+namespace ML
 {
     public class KMeans
 {

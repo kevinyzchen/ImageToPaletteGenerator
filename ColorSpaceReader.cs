@@ -1,31 +1,13 @@
 ﻿using System.Collections.Generic;
 using Godot;
 using Newtonsoft.Json;
-using PercetualColorSystem;
+using PercetualColors;
 using Path = System.IO.Path;
 
 namespace ImageToPaletteGenerator
 {
     public static class ColorSpaceReader
     {
-        private static readonly string _colorLibraryFolderPath = "res://Data/";
-
-        public static Dictionary<string, List<UberColor>> GetLibrary() {
-            var colorLibrary = new Dictionary<string, List<UberColor>>();
-            var dir = new Directory();
-            dir.Open(_colorLibraryFolderPath);
-            dir.ListDirBegin();
-            //while (!string.IsNullOrEmpty(fileName)) {
-            for (int i = 0; i < 100; i++) {
-                var fileName = dir.GetNext();
-                if (fileName.Empty()) break;
-                string[] words = fileName.Split('_', '.');
-                if (words[0] == "colors") {
-                    colorLibrary[words[1]] = LoadColorsFromFile((dir.GetCurrentDir() + "/" + fileName));
-                }
-            }
-            return colorLibrary;
-        }
 
         public static List<UberColor> LoadColorsFromFile(string path) {
             var fileColors = new List<UberColor>();

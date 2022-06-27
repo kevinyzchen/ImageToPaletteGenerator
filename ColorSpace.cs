@@ -1,9 +1,12 @@
 ﻿using System.Collections.Generic;
 using Newtonsoft.Json;
-using PercetualColorSystem;
+using PercetualColors;
 
 namespace ImageToPaletteGenerator
 {
+    /// <summary>
+    /// A color space is a collection of colors. It's used 
+    /// </summary>
     public class ColorSpace
     {
         [JsonConstructor]

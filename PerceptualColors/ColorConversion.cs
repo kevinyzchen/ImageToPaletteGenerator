@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PercetualColorSystem
+namespace PercetualColors
 {
     public static class ColorConversion
     {
