@@ -5,7 +5,7 @@ using PercetualColors;
 namespace ImageToPaletteGenerator
 {
     /// <summary>
-    /// A color space is a collection of colors. It's used 
+    /// A color space is a collection of colors. 
     /// </summary>
     public class ColorSpace
     {
@@ -15,9 +15,5 @@ namespace ImageToPaletteGenerator
             Colors = colors;
         }
         public List<UberColor> Colors { get; }
-        /// <summary>
-        /// The palette from each individual frame/image
-        /// </summary>
-        public Dictionary<string, List<UberColor>> colorSpaceGroups;
     }
 }

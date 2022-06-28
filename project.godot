@@ -18,28 +18,16 @@ _global_script_classes=[ {
 "class": "ExtractedCard",
 "language": "GDScript",
 "path": "res://Scripts/extracted_card.gd"
-}, {
-"base": "ColorSpaceExtractor",
-"class": "ImageToColorspaceExtractor",
-"language": "GDScript",
-"path": "res://images_to_colorspace_extractor.gd"
-}, {
-"base": "ColorSpaceExtractor",
-"class": "VideoToColorspaceExtractor",
-"language": "GDScript",
-"path": "res://video_to_colorspace_extractor.gd"
 } ]
 _global_script_class_icons={
 "ColorSpaceExtractor": "",
-"ExtractedCard": "",
-"ImageToColorspaceExtractor": "",
-"VideoToColorspaceExtractor": ""
+"ExtractedCard": ""
 }
 
 [application]
 
 config/name="ImageToPaletteGenerator"
-run/main_scene="res://ColorSpaceVideoExtractor.tscn"
+run/main_scene="res://ColorSpaceExtractor.tscn"
 config/icon="res://icon.png"
 
 [physics]

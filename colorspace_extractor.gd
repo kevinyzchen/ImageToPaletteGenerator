@@ -26,6 +26,20 @@ onready var input_folder_text : LineEdit = get_node(input_folder_text_path)
 export(NodePath) var input_folder_dialog_path
 onready var input_folder_dialog : FileDialog = get_node(input_folder_dialog_path)
 
+func _ready():
+	var processor_script = load("res://GodotFileProcessor.cs")
+	processor = processor_script.new()
+	assert(extract_button != null, "no extract button found")
+	print(processor)
+
+func _process_data():
+	processor.Process(input_path, output_path, {"min_k" : 3, "max_k" : 12, "trials" : 5, "interval" : 40.0, "threshold" : .1})
+
+func _on_InputFileDialog_file_selected(path):
+	input_path = path
+	input_folder_text.text = path
+
+
 
 func clear_preview():
 	for i in preview_objects:
@@ -54,9 +68,7 @@ func _on_Extract_button_up():
 func process_data():
 	_process_data()
 	yield(get_tree(), "idle_frame")
-	
-func _process_data():
-	pass
+
 
 func _on_OutputFolderDir_button_up():
 	output_folder_dialog.visible = true

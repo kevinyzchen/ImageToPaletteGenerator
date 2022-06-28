@@ -1,9 +1,29 @@
 [gd_scene load_steps=2 format=2]
 
-[ext_resource path="res://images_to_colorspace_extractor.gd" type="Script" id=1]
+[sub_resource type="GDScript" id=1]
+script/source = "extends ColorSpaceExtractor
+class_name ImageToColorspaceExtractor
+
+func _ready():
+	._ready()
+	var processor_script = load(\"res://ImageToColorSpaceProcessor.cs\")
+	processor = processor_script.new()
+	assert(extract_button != null, \"no extract button found\")
+	
+func _process_data():
+#	processor.Process(input_path, output_path, {\"min_k\" : 3, \"max_k\" : 12, \"interval\" : 40.0, \"threshold\" : .1, \"method\" : \"KMEANS\"})
+	processor.Process(input_path, output_path, {\"eps\" : 15.0, \"min_pts\" : 3, \"interval\" : 40.0, \"threshold\" : .1, \"method\" : \"DBSCAN\"})
+
+
+func _on_InputFolderDialog_dir_selected(dir):
+	input_path = dir + \"/\"
+	input_folder_text.text = dir + \"/\"
+
+
+"
 
 [node name="ColorSpaceFromImage" type="Node"]
-script = ExtResource( 1 )
+script = SubResource( 1 )
 preview_grid_path = NodePath("HBoxContainer/GridContainer")
 extract_button_path = NodePath("HBoxContainer/VBoxContainer/Extract")
 output_folder_text_path = NodePath("HBoxContainer/VBoxContainer/HBoxContainer2/OutputFolder")
