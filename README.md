@@ -17,4 +17,4 @@ Video:
 - MPG
 - MP4
 
-Web support will be added later. 
+Still very prototypy. Currently clean up its UI.
