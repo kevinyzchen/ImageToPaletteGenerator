@@ -6,7 +6,7 @@
 
 [node name="ColorSpaceExtractor" type="Node"]
 script = ExtResource( 2 )
-preview_grid_path = NodePath("CanvasLayer/CenterContainer/HBoxContainer/Preview")
+preview_grid_path = NodePath("CanvasLayer/CenterContainer/HBoxContainer/ScrollContainer/Preview")
 extract_button_path = NodePath("CanvasLayer/CenterContainer/HBoxContainer/VBoxContainer/VBoxContainer/Extract")
 output_folder_text_path = NodePath("CanvasLayer/CenterContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/OutputLine")
 output_folder_dialog_path = NodePath("CanvasLayer/CenterContainer2/OutputFolderDialog")
@@ -29,13 +29,14 @@ margin_right = 298.0
 margin_bottom = 171.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CenterContainer"]
+margin_top = 2.0
 margin_right = 298.0
-margin_bottom = 342.0
+margin_bottom = 340.0
 custom_constants/separation = 32
 
 [node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer/HBoxContainer"]
 margin_right = 202.0
-margin_bottom = 342.0
+margin_bottom = 338.0
 
 [node name="Label2" type="Label" parent="CanvasLayer/CenterContainer/HBoxContainer/VBoxContainer"]
 margin_right = 202.0
@@ -223,21 +224,18 @@ margin_right = 202.0
 margin_bottom = 304.0
 text = "Save"
 
-[node name="Panel" type="Panel" parent="CanvasLayer/CenterContainer/HBoxContainer/VBoxContainer"]
-margin_top = 342.0
-margin_right = 202.0
-margin_bottom = 342.0
-
 [node name="VSeparator" type="VSeparator" parent="CanvasLayer/CenterContainer/HBoxContainer"]
 margin_left = 234.0
 margin_right = 266.0
-margin_bottom = 342.0
+margin_bottom = 338.0
 custom_constants/separation = 32
 
-[node name="Preview" type="GridContainer" parent="CanvasLayer/CenterContainer/HBoxContainer"]
+[node name="ScrollContainer" type="ScrollContainer" parent="CanvasLayer/CenterContainer/HBoxContainer"]
 margin_left = 298.0
 margin_right = 298.0
-margin_bottom = 342.0
+margin_bottom = 338.0
+
+[node name="Preview" type="GridContainer" parent="CanvasLayer/CenterContainer/HBoxContainer/ScrollContainer"]
 grow_vertical = 2
 columns = 3
 
