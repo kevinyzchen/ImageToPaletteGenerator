@@ -41,6 +41,7 @@ namespace ImageToPaletteGenerator
         
         public List<string> Process(string inputPath, string outputPath, KmeansArgs args, float interval = .5f, float threshold = .1f)
         {
+            ProcessResultFilePaths.Clear();
             _interval = interval;
             _threshold = threshold;
             _processingParams = args;
@@ -51,14 +52,8 @@ namespace ImageToPaletteGenerator
             {
                 var extension = Path.GetExtension(path);
                 string result = null;
-                if (extension == ".jpg" || extension == ".png" || extension == ".jpeg")
-                {
-                    result = ProcessImage(path, outputPath);
-                }
-                else if (extension == ".mp4" || extension == ".flv" || extension == ".mpeg" || extension == ".mpg")
-                {
-                    result = ProcessVideo(path, outputPath);
-                }
+                if (ExtensionLists.ImageExtensions.Contains(extension)) result = ProcessImage(path, outputPath);
+                else if (ExtensionLists.VideoExtensions.Contains(extension)) result = ProcessVideo(path, outputPath);
                 if (result != null) ProcessResultFilePaths.Add(result);
             }
             return ProcessResultFilePaths;
