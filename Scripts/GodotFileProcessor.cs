@@ -31,17 +31,15 @@ namespace ImageToPaletteGenerator
             {
                 var colors = PaletteIO.LoadColorsFromFile(processResultFilePath.Item1);
                 GD.PrintErr(colors.Count);
-                Array colorArray = new Array();
+                var colorArray = new Array();
                 var gdColors = colors.Select(o => o.Color);
-                foreach (var color in gdColors)
-                {
-                    colorArray.Add(color);
-                }
+                foreach (var color in gdColors) colorArray.Add(color);
                 colorsFromFiles.Add(colorArray);
                 thumbnailsPaths.Add(processResultFilePath.Item2);
                 namesFromFiles.Add(Path.GetFileNameWithoutExtension(processResultFilePath.Item1));
             }
-            Dictionary results = new Dictionary();
+
+            var results = new Dictionary();
             results["names"] = namesFromFiles;
             results["thumbnails"] = thumbnailsPaths;
             results["palettes"] = colorsFromFiles;

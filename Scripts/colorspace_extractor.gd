@@ -3,7 +3,6 @@ class_name ColorSpaceExtractor
 
 var processor 
 var preview_objects = []
-onready var preview = $HBoxContainer/HBoxContainer/Preview
 var card = preload("res://Scenes/ExtractedCard.tscn")
 
 ### Passed Parameters ###
@@ -49,7 +48,6 @@ func preview():
 	printerr(result)
 	for i in result["palettes"].size():
 		var color_list = result["palettes"][i]
-		print(color_list.size(), "SDSD")
 		var thumbnail_path = result["thumbnails"][i]
 		var string_name = result["names"][i]
 		var card = create_new_preview_card(string_name, color_list, thumbnail_path)
@@ -61,7 +59,7 @@ func create_new_preview_card(string_name : String, colors , thumbnail_path : Str
 	var image = Image.new()
 	image.load(thumbnail_path);
 	imageTexture.create_from_image(image);
-	preview.add_child(new_card)
+	preview_grid.add_child(new_card)
 	new_card.name= string_name
 	new_card.load_data(string_name, colors, imageTexture)
 	return new_card

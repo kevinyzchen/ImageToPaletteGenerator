@@ -4,225 +4,26 @@
 
 [node name="ColorSpaceExtractor" type="Node"]
 script = ExtResource( 2 )
-extract_button_path = NodePath("HBoxContainer/HBoxContainer/VBoxContainer/Extract")
-output_folder_text_path = NodePath("HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/OutputLine")
-output_folder_dialog_path = NodePath("OutputFolderDialog")
-input_folder_text_path = NodePath("HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer5/InputLine")
-input_folder_dialog_path = NodePath("InputFileDialog")
+preview_grid_path = NodePath("CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/Preview")
+extract_button_path = NodePath("CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/Extract")
+output_folder_text_path = NodePath("CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/OutputLine")
+output_folder_dialog_path = NodePath("CanvasLayer/CenterContainer/OutputFolderDialog")
+input_folder_text_path = NodePath("CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer5/InputLine")
+input_folder_dialog_path = NodePath("CanvasLayer/CenterContainer/InputFileDialog")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="."]
-margin_left = 65.0
-margin_top = 76.0
-margin_right = 234.0
-margin_bottom = 170.0
-custom_constants/separation = 32
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
-margin_right = 238.0
+[node name="CenterContainer" type="CenterContainer" parent="CanvasLayer"]
+margin_left = 69.0
+margin_top = 62.0
+margin_right = 330.0
 margin_bottom = 258.0
 
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer"]
-margin_right = 234.0
-margin_bottom = 258.0
-
-[node name="Label2" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_right = 234.0
-margin_bottom = 14.0
-text = "Color Space Extractor"
-
-[node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 18.0
-margin_right = 234.0
-margin_bottom = 154.0
-
-[node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer"]
-margin_right = 234.0
-margin_bottom = 136.0
-
-[node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
-margin_right = 234.0
-margin_bottom = 24.0
-
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
-margin_top = 5.0
-margin_right = 34.0
-margin_bottom = 19.0
-text = "Trials"
-
-[node name="Trials" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
-margin_left = 38.0
-margin_right = 112.0
-margin_bottom = 24.0
-value = 3.0
-
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
-margin_top = 28.0
-margin_right = 234.0
-margin_bottom = 52.0
-
-[node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_right = 114.0
-margin_bottom = 24.0
-
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer3"]
-margin_top = 5.0
-margin_right = 36.0
-margin_bottom = 19.0
-text = "Min K"
-
-[node name="MinK" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer3"]
-margin_left = 40.0
-margin_right = 114.0
-margin_bottom = 24.0
-value = 3.0
-
-[node name="HBoxContainer6" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
-margin_left = 118.0
-margin_right = 234.0
-margin_bottom = 24.0
-
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer6"]
-margin_top = 5.0
-margin_right = 38.0
-margin_bottom = 19.0
-text = "Max K"
-
-[node name="MaxK" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer6"]
-margin_left = 42.0
-margin_right = 116.0
-margin_bottom = 24.0
-value = 24.0
-
-[node name="HBoxContainer7" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
-margin_top = 56.0
-margin_right = 234.0
-margin_bottom = 80.0
-
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer7"]
-margin_top = 5.0
-margin_right = 49.0
-margin_bottom = 19.0
-text = "Interval"
-
-[node name="Interval" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer7"]
-margin_left = 53.0
-margin_right = 127.0
-margin_bottom = 24.0
-max_value = 1000.0
-step = 0.5
-value = 5.0
-
-[node name="HBoxContainer8" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
-margin_top = 84.0
-margin_right = 234.0
-margin_bottom = 108.0
-
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer8"]
-margin_top = 5.0
-margin_right = 63.0
-margin_bottom = 19.0
-text = "Threshold"
-
-[node name="Threshold" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer8"]
-margin_left = 67.0
-margin_right = 141.0
-margin_bottom = 24.0
-max_value = 1.0
-step = 0.05
-value = 0.05
-
-[node name="HBoxContainer9" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
-margin_top = 112.0
-margin_right = 234.0
-margin_bottom = 136.0
-
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer9"]
-margin_top = 5.0
-margin_right = 98.0
-margin_bottom = 19.0
-text = "Max Resolution"
-
-[node name="MaxResolution" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer9"]
-margin_left = 102.0
-margin_right = 176.0
-margin_bottom = 24.0
-max_value = 1024.0
-value = 128.0
-
-[node name="HBoxContainer5" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 158.0
-margin_right = 234.0
-margin_bottom = 182.0
-
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer5"]
-margin_top = 5.0
-margin_right = 74.0
-margin_bottom = 19.0
-text = "Input Video"
-
-[node name="InputLine" type="LineEdit" parent="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer5"]
-margin_left = 78.0
-margin_right = 136.0
-margin_bottom = 24.0
-caret_blink = true
-caret_blink_speed = 0.5
-
-[node name="InputDir" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer5"]
-margin_left = 140.0
-margin_right = 187.0
-margin_bottom = 24.0
-text = "Open"
-
-[node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 186.0
-margin_right = 234.0
-margin_bottom = 210.0
-
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_top = 5.0
-margin_right = 89.0
-margin_bottom = 19.0
-text = "Output Folder"
-
-[node name="OutputLine" type="LineEdit" parent="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 93.0
-margin_right = 151.0
-margin_bottom = 24.0
-caret_blink = true
-caret_blink_speed = 0.5
-
-[node name="OutputDir" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
-margin_left = 155.0
-margin_right = 202.0
-margin_bottom = 24.0
-text = "Open"
-
-[node name="Extract" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 214.0
-margin_right = 234.0
-margin_bottom = 234.0
-text = "Extract"
-
-[node name="Preview2" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 238.0
-margin_right = 234.0
-margin_bottom = 258.0
-text = "Save"
-
-[node name="Preview" type="VBoxContainer" parent="HBoxContainer/HBoxContainer"]
-margin_left = 238.0
-margin_right = 238.0
-margin_bottom = 258.0
-
-[node name="OutputFolderDialog" type="FileDialog" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -178.0
-margin_top = -65.0
-margin_right = 178.0
-margin_bottom = 65.0
+[node name="OutputFolderDialog" type="FileDialog" parent="CanvasLayer/CenterContainer"]
+margin_left = -13.0
+margin_top = 29.0
+margin_right = 343.0
+margin_bottom = 229.0
 rect_min_size = Vector2( 200, 200 )
 window_title = "Open a Directory"
 resizable = true
@@ -231,15 +32,11 @@ access = 2
 current_dir = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator"
 current_path = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator/"
 
-[node name="InputFileDialog" type="FileDialog" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -178.0
-margin_top = -65.0
-margin_right = 178.0
-margin_bottom = 65.0
+[node name="InputFileDialog" type="FileDialog" parent="CanvasLayer/CenterContainer"]
+margin_left = -13.0
+margin_top = 29.0
+margin_right = 343.0
+margin_bottom = 229.0
 rect_min_size = Vector2( 200, 200 )
 window_title = "Open a File or Directory"
 resizable = true
@@ -248,18 +45,233 @@ access = 2
 current_dir = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator"
 current_path = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator/"
 
-[connection signal="value_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer4/Trials" to="." method="_on_Trials_value_changed"]
-[connection signal="value_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer3/MinK" to="." method="_on_MinK_value_changed"]
-[connection signal="value_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer6/MaxK" to="." method="_on_MaxK_value_changed"]
-[connection signal="value_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer7/Interval" to="." method="_on_Interval_value_changed"]
-[connection signal="value_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer8/Threshold" to="." method="_on_Threshold_value_changed"]
-[connection signal="value_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer9/MaxResolution" to="." method="_on_MaxResolution_value_changed"]
-[connection signal="text_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer5/InputLine" to="." method="_on_InputFolder_text_changed"]
-[connection signal="button_up" from="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer5/InputDir" to="." method="_on_InputFolderDir_button_up"]
-[connection signal="text_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/OutputLine" to="." method="_on_OutputFolder_text_changed"]
-[connection signal="button_up" from="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/OutputDir" to="." method="_on_OutputFolderDir_button_up"]
-[connection signal="button_up" from="HBoxContainer/HBoxContainer/VBoxContainer/Extract" to="." method="_on_Extract_button_up"]
-[connection signal="button_up" from="HBoxContainer/HBoxContainer/VBoxContainer/Preview2" to="." method="_on_Preview_button_up"]
-[connection signal="dir_selected" from="OutputFolderDialog" to="." method="_on_OutputFolderDialog_dir_selected"]
-[connection signal="dir_selected" from="InputFileDialog" to="." method="_on_InputFileDialog_dir_selected"]
-[connection signal="file_selected" from="InputFileDialog" to="." method="_on_InputFileDialog_file_selected"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer"]
+margin_right = 330.0
+margin_bottom = 258.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer"]
+margin_right = 330.0
+margin_bottom = 258.0
+custom_constants/separation = 32
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer"]
+margin_right = 234.0
+margin_bottom = 258.0
+
+[node name="Label2" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_right = 234.0
+margin_bottom = 14.0
+text = "Color Space Extractor"
+align = 1
+valign = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer"]
+margin_top = 18.0
+margin_right = 234.0
+margin_bottom = 258.0
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_right = 234.0
+margin_bottom = 136.0
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer"]
+margin_right = 234.0
+margin_bottom = 136.0
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_right = 234.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
+margin_top = 5.0
+margin_right = 34.0
+margin_bottom = 19.0
+text = "Trials"
+
+[node name="Trials" type="SpinBox" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
+margin_left = 38.0
+margin_right = 112.0
+margin_bottom = 24.0
+value = 3.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 28.0
+margin_right = 234.0
+margin_bottom = 52.0
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_right = 114.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer3"]
+margin_top = 5.0
+margin_right = 36.0
+margin_bottom = 19.0
+text = "Min K"
+
+[node name="MinK" type="SpinBox" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer3"]
+margin_left = 40.0
+margin_right = 114.0
+margin_bottom = 24.0
+value = 3.0
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer"]
+margin_left = 118.0
+margin_right = 234.0
+margin_bottom = 24.0
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer6"]
+margin_top = 5.0
+margin_right = 38.0
+margin_bottom = 19.0
+text = "Max K"
+
+[node name="MaxK" type="SpinBox" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer6"]
+margin_left = 42.0
+margin_right = 116.0
+margin_bottom = 24.0
+value = 24.0
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 56.0
+margin_right = 234.0
+margin_bottom = 80.0
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer7"]
+margin_top = 5.0
+margin_right = 49.0
+margin_bottom = 19.0
+text = "Interval"
+
+[node name="Interval" type="SpinBox" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer7"]
+margin_left = 53.0
+margin_right = 127.0
+margin_bottom = 24.0
+max_value = 1000.0
+step = 0.5
+value = 5.0
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 84.0
+margin_right = 234.0
+margin_bottom = 108.0
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer8"]
+margin_top = 5.0
+margin_right = 63.0
+margin_bottom = 19.0
+text = "Threshold"
+
+[node name="Threshold" type="SpinBox" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer8"]
+margin_left = 67.0
+margin_right = 141.0
+margin_bottom = 24.0
+max_value = 1.0
+step = 0.05
+value = 0.05
+
+[node name="HBoxContainer9" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 112.0
+margin_right = 234.0
+margin_bottom = 136.0
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer9"]
+margin_top = 5.0
+margin_right = 98.0
+margin_bottom = 19.0
+text = "Max Resolution"
+
+[node name="MaxResolution" type="SpinBox" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer9"]
+margin_left = 102.0
+margin_right = 176.0
+margin_bottom = 24.0
+max_value = 1024.0
+value = 128.0
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 140.0
+margin_right = 234.0
+margin_bottom = 164.0
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer5"]
+margin_top = 5.0
+margin_right = 74.0
+margin_bottom = 19.0
+text = "Input Video"
+
+[node name="InputLine" type="LineEdit" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer5"]
+margin_left = 78.0
+margin_right = 136.0
+margin_bottom = 24.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="InputDir" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer5"]
+margin_left = 140.0
+margin_right = 187.0
+margin_bottom = 24.0
+text = "Open"
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 168.0
+margin_right = 234.0
+margin_bottom = 192.0
+
+[node name="Label" type="Label" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_top = 5.0
+margin_right = 89.0
+margin_bottom = 19.0
+text = "Output Folder"
+
+[node name="OutputLine" type="LineEdit" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 93.0
+margin_right = 151.0
+margin_bottom = 24.0
+caret_blink = true
+caret_blink_speed = 0.5
+
+[node name="OutputDir" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2"]
+margin_left = 155.0
+margin_right = 202.0
+margin_bottom = 24.0
+text = "Open"
+
+[node name="Extract" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 196.0
+margin_right = 234.0
+margin_bottom = 216.0
+text = "Extract"
+
+[node name="Preview2" type="Button" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer"]
+margin_top = 220.0
+margin_right = 234.0
+margin_bottom = 240.0
+text = "Save"
+
+[node name="VSeparator" type="VSeparator" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer"]
+margin_left = 266.0
+margin_right = 298.0
+margin_bottom = 258.0
+custom_constants/separation = 32
+
+[node name="Preview" type="GridContainer" parent="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer"]
+margin_left = 330.0
+margin_right = 330.0
+margin_bottom = 258.0
+columns = 3
+
+[connection signal="dir_selected" from="CanvasLayer/CenterContainer/OutputFolderDialog" to="." method="_on_OutputFolderDialog_dir_selected"]
+[connection signal="dir_selected" from="CanvasLayer/CenterContainer/InputFileDialog" to="." method="_on_InputFileDialog_dir_selected"]
+[connection signal="file_selected" from="CanvasLayer/CenterContainer/InputFileDialog" to="." method="_on_InputFileDialog_file_selected"]
+[connection signal="value_changed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer4/Trials" to="." method="_on_Trials_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer3/MinK" to="." method="_on_MinK_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer/HBoxContainer6/MaxK" to="." method="_on_MaxK_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer7/Interval" to="." method="_on_Interval_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer8/Threshold" to="." method="_on_Threshold_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer9/MaxResolution" to="." method="_on_MaxResolution_value_changed"]
+[connection signal="text_changed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer5/InputLine" to="." method="_on_InputFolder_text_changed"]
+[connection signal="button_up" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer5/InputDir" to="." method="_on_InputFolderDir_button_up"]
+[connection signal="text_changed" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/OutputLine" to="." method="_on_OutputFolder_text_changed"]
+[connection signal="button_up" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/HBoxContainer2/OutputDir" to="." method="_on_OutputFolderDir_button_up"]
+[connection signal="button_up" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/Extract" to="." method="_on_Extract_button_up"]
+[connection signal="button_up" from="CanvasLayer/CenterContainer/VBoxContainer/HBoxContainer/VBoxContainer/VBoxContainer/Preview2" to="." method="_on_Preview_button_up"]

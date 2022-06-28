@@ -39,10 +39,9 @@ namespace ImageToPaletteGenerator
             }
             else
             {
-                var aspectRatio = image.Width / (float)image.Height;
                 var imageSize = image.Height > image.Width
-                    ? new Vector2(maxRes, maxRes / aspectRatio)
-                    : new Vector2(maxRes / aspectRatio, maxRes);
+                    ? new Vector2(maxRes *  (float)image.Width/image.Height, maxRes )
+                    : new Vector2(maxRes, maxRes *  (float)image.Height/image.Width);
                 thumbWidth = (int)imageSize.X;
                 thumbHeight = (int)imageSize.Y;
                 thumbBmp =

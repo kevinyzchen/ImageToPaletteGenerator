@@ -21,6 +21,6 @@ func make_palette_preview():
 	print(_colors.size(), "size")
 	for i in _colors.size():
 		var rect = ColorRect.new()
-		rect.rect_min_size = Vector2(48,48)
+		rect.rect_min_size = Vector2(32,32)
 		rect.color = _colors[i]
 		palette_box.add_child(rect)

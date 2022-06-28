@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Linq;
 using MediaToolkit.Model;
 using MediaToolkit.Options;
 using static ImageToPaletteGenerator.PaletteExtraction;
@@ -37,7 +35,8 @@ namespace ImageToPaletteGenerator
             return allFilePaths;
         }
 
-        public List<Tuple<string, string>> Process(string inputPath, string outputPath, KmeansArgs args, float interval = .5f,
+        public List<Tuple<string, string>> Process(string inputPath, string outputPath, KmeansArgs args,
+            float interval = .5f,
             float threshold = .1f, int maxRes = 128)
         {
             ProcessResultFilePaths.Clear();
@@ -59,8 +58,10 @@ namespace ImageToPaletteGenerator
             {
                 var extension = Path.GetExtension(path);
                 List<Tuple<string, string>> result = null;
-                if (ExtensionLists.ImageExtensions.Contains(extension)) ProcessResultFilePaths.Add(ProcessImage(path, outputPath));
-                else if (ExtensionLists.VideoExtensions.Contains(extension)) ProcessResultFilePaths.AddRange(ProcessVideo(path, outputPath));
+                if (ExtensionLists.ImageExtensions.Contains(extension))
+                    ProcessResultFilePaths.Add(ProcessImage(path, outputPath));
+                else if (ExtensionLists.VideoExtensions.Contains(extension))
+                    ProcessResultFilePaths.AddRange(ProcessVideo(path, outputPath));
             }
 
             return ProcessResultFilePaths;
@@ -68,10 +69,10 @@ namespace ImageToPaletteGenerator
 
         private Tuple<string, string> ProcessImage(string path, string savePath)
         {
-            var palette = ImageToPalette(path, _extractionArgs, out Bitmap thumbnail);
+            var palette = ImageToPalette(path, _extractionArgs, out var thumbnail);
             var selectedColors = FilterColorListForDistance(palette, _extractionArgs.Threshold);
             var colorPalette = new Palette(selectedColors);
-            
+
             var palettePath =
                 PaletteIO.WritePaletteToDisk(colorPalette, Path.GetFileNameWithoutExtension(path), savePath);
             var thumbnailPath = savePath + Path.GetFileNameWithoutExtension(path) + ".png";
@@ -103,7 +104,7 @@ namespace ImageToPaletteGenerator
             //Clean up
             // tmpPalettePaths.ForEach(File.Delete);
             // tmpImagePaths.ForEach(File.Delete);
-            
+
             return palettePaths;
         }
 
