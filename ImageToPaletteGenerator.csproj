@@ -6,5 +6,6 @@
     <PackageReference Include="Kneedle" Version="1.0.1" />
     <PackageReference Include="MediaToolkit" Version="1.1.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="VideoLibrary" Version="3.1.9" />
   </ItemGroup>
 </Project>

@@ -6,7 +6,7 @@ using Godot.Collections;
 namespace ImageToPaletteGenerator
 {
     /// <summary>
-    /// Wrapper class for FileProcessor to decouple the Godot from the backend
+    /// Wrapper class for FileProcessor to decouple the engine from everything else.
     /// </summary>
     public class GodotFileProcessor : Reference, IProcessor
     {
