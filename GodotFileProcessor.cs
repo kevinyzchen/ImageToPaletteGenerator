@@ -5,6 +5,9 @@ using Godot.Collections;
 
 namespace ImageToPaletteGenerator
 {
+    /// <summary>
+    /// Wrapper class for FilleProcessor
+    /// </summary>
     public class GodotFileProcessor : Reference, IProcessor
     {
         public GodotFileProcessor()
@@ -29,6 +32,7 @@ namespace ImageToPaletteGenerator
 
         public List<string> Process(string inputPath, string outputPath, Dictionary args = null)
         {
+            // ProcessResultFilePaths.Clear();
             var Kmeans = new KmeansArgs
             {
                 minK = (int)args["min_k"],

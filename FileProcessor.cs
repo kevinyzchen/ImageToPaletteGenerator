@@ -67,7 +67,8 @@ namespace ImageToPaletteGenerator
         private string ProcessImage(string path, string savePath)
         {
             var palette = ImageToPalette(path);
-            var colorPalette = new ColorSpace(palette);
+            var selectedColors = FilterColorListForDistance(palette);
+            var colorPalette = new ColorSpace(selectedColors);
             var result = ColorSpaceIO.WriteColorSpaceToDisk(colorPalette, Path.GetFileNameWithoutExtension(path), savePath);
             _filesProcessed++;
             return result;
@@ -118,6 +119,37 @@ namespace ImageToPaletteGenerator
             return chosenKMeans;
         }
 
+        private List<UberColor> FilterColorListForDistance( List<UberColor> colors)
+        {
+            List<UberColor> shuffled = new List<UberColor>(colors);
+            shuffled.Shuffle();
+            var remainingColors = new Queue<UberColor>(shuffled);
+            var selectedColors = new List<UberColor>();
+            while (remainingColors.Count > 0)
+            {
+                var checkingColor = remainingColors.Dequeue();
+                if (remainingColors.Count == 1)
+                {
+                    selectedColors.Add(checkingColor);
+                    break;
+                }
+                var compareColors = new List<UberColor>(remainingColors);
+                compareColors.Remove(checkingColor);
+                var success = true;
+                foreach (var compareColor in compareColors)
+                {
+                    var dist = (float)checkingColor.Hsl.DistanceTo(compareColor.Hsl);
+                    if (dist < _threshold)
+                    {
+                        success = false;
+                        break;
+                    }
+                }
+                if (success) selectedColors.Add(checkingColor);
+            }
+            return selectedColors;
+        }
+        
         private string ProcessVideo(string path, string savePath)
         {
             var tmpImagePaths = VideoToImages(path);
@@ -128,32 +160,7 @@ namespace ImageToPaletteGenerator
                 tmpPalettePaths.Add(result);
             }
             var colors = ColorSpaceIO.LoadColorsFromFiles(tmpPalettePaths);
-            //Filter colors for distance
-            colors.Shuffle();
-            var remainingColors = new Queue<UberColor>(colors);
-            var selectedColors = new List<UberColor>();
-            while (remainingColors.Count > 0)
-            {
-                var checkingColor = remainingColors.Dequeue();
-                if (remainingColors.Count == 1)
-                {
-                    selectedColors.Add(checkingColor);
-                    break;
-                }
-
-                var compareColors = new List<UberColor>(remainingColors);
-                compareColors.Remove(checkingColor);
-                var success = true;
-                foreach (var compareColor in compareColors)
-                {
-                    var dist = (float)checkingColor.Hsl.DistanceTo(compareColor.Hsl);
-                    if (!(dist < _threshold)) continue;
-                    success = false;
-                    break;
-                }
-                if (success) selectedColors.Add(checkingColor);
-            }
-
+            var selectedColors = FilterColorListForDistance(colors);
             var videoPalette = new ColorSpace(selectedColors);
             var videoPalettePath = ColorSpaceIO.WriteColorSpaceToDisk(videoPalette, Path.GetFileNameWithoutExtension(path), savePath);
             tmpPalettePaths.ForEach(File.Delete);

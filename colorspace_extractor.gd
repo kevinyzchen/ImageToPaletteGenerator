@@ -5,11 +5,16 @@ var processor
 var input_path : String 
 var output_path : String
 var preview_objects = []
-var colorspace_name : String
+
+### Passed Parameters ###
+var min_k : int = 3
+var max_k : int = 24
+var interval : float = 5.0
+var threshold : float = .05
+var trials : int = 3
 
 export(NodePath) var preview_grid_path
 onready var preview_grid : GridContainer = get_node(preview_grid_path)
-
 
 export(NodePath) var extract_button_path
 onready var extract_button = get_node(extract_button_path)
@@ -30,16 +35,13 @@ func _ready():
 	var processor_script = load("res://GodotFileProcessor.cs")
 	processor = processor_script.new()
 	assert(extract_button != null, "no extract button found")
-	print(processor)
 
 func _process_data():
-	processor.Process(input_path, output_path, {"min_k" : 3, "max_k" : 12, "trials" : 5, "interval" : 40.0, "threshold" : .1})
-
+	processor.Process(input_path, output_path, {"min_k" : min_k, "max_k" : max_k, "trials" : trials, "interval" : interval, "threshold" : threshold})
+	
 func _on_InputFileDialog_file_selected(path):
 	input_path = path
 	input_folder_text.text = path
-
-
 
 func clear_preview():
 	for i in preview_objects:
@@ -69,7 +71,6 @@ func process_data():
 	_process_data()
 	yield(get_tree(), "idle_frame")
 
-
 func _on_OutputFolderDir_button_up():
 	output_folder_dialog.visible = true
 	
@@ -85,6 +86,18 @@ func _on_InputFolder_text_changed(new_text):
 
 func _on_InputFolderDir_button_up():
 	input_folder_dialog.visible = true
-	
-func _on_ColorSpaceName_text_changed(new_text):
-	colorspace_name = new_text
+
+func _on_Trials_value_changed(value):
+	trials = value
+
+func _on_MinK_value_changed(value):
+	min_k = value
+
+func _on_MaxK_value_changed(value):
+	max_k = value
+
+func _on_Interval_value_changed(value):
+	interval = value
+
+func _on_Threshold_value_changed(value):
+	threshold = value

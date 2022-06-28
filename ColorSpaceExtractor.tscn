@@ -21,11 +21,11 @@ custom_constants/separation = 32
 
 [node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer"]
 margin_right = 258.0
-margin_bottom = 202.0
+margin_bottom = 258.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer"]
 margin_right = 202.0
-margin_bottom = 202.0
+margin_bottom = 258.0
 
 [node name="Label2" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
 margin_right = 202.0
@@ -35,11 +35,11 @@ text = "Color Space Extractor"
 [node name="MarginContainer" type="MarginContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 18.0
 margin_right = 202.0
-margin_bottom = 98.0
+margin_bottom = 154.0
 
 [node name="VBoxContainer" type="VBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer"]
 margin_right = 202.0
-margin_bottom = 80.0
+margin_bottom = 136.0
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 margin_right = 202.0
@@ -51,10 +51,11 @@ margin_right = 34.0
 margin_bottom = 19.0
 text = "Trials"
 
-[node name="SpinBox" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
+[node name="Trials" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer4"]
 margin_left = 38.0
 margin_right = 112.0
 margin_bottom = 24.0
+value = 3.0
 
 [node name="HBoxContainer3" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 margin_top = 28.0
@@ -67,10 +68,11 @@ margin_right = 36.0
 margin_bottom = 19.0
 text = "Min K"
 
-[node name="SpinBox" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
+[node name="MinK" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer3"]
 margin_left = 40.0
 margin_right = 114.0
 margin_bottom = 24.0
+value = 3.0
 
 [node name="HBoxContainer6" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
 margin_top = 56.0
@@ -83,15 +85,54 @@ margin_right = 38.0
 margin_bottom = 19.0
 text = "Max K"
 
-[node name="SpinBox" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer6"]
+[node name="MaxK" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer6"]
 margin_left = 42.0
 margin_right = 116.0
 margin_bottom = 24.0
+value = 24.0
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 84.0
+margin_right = 202.0
+margin_bottom = 108.0
+
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer7"]
+margin_top = 5.0
+margin_right = 49.0
+margin_bottom = 19.0
+text = "Interval"
+
+[node name="Interval" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer7"]
+margin_left = 53.0
+margin_right = 127.0
+margin_bottom = 24.0
+max_value = 1000.0
+step = 0.5
+value = 5.0
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+margin_top = 112.0
+margin_right = 202.0
+margin_bottom = 136.0
+
+[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer8"]
+margin_top = 5.0
+margin_right = 63.0
+margin_bottom = 19.0
+text = "Threshold"
+
+[node name="Threshold" type="SpinBox" parent="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer8"]
+margin_left = 67.0
+margin_right = 141.0
+margin_bottom = 24.0
+max_value = 1.0
+step = 0.05
+value = 0.05
 
 [node name="HBoxContainer5" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 102.0
+margin_top = 158.0
 margin_right = 202.0
-margin_bottom = 126.0
+margin_bottom = 182.0
 
 [node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer5"]
 margin_top = 5.0
@@ -113,9 +154,9 @@ margin_bottom = 24.0
 text = "Open"
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 130.0
+margin_top = 186.0
 margin_right = 202.0
-margin_bottom = 154.0
+margin_bottom = 210.0
 
 [node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2"]
 margin_top = 5.0
@@ -137,9 +178,9 @@ margin_bottom = 24.0
 text = "Open"
 
 [node name="Extract" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 158.0
+margin_top = 214.0
 margin_right = 202.0
-margin_bottom = 178.0
+margin_bottom = 234.0
 text = "Extract"
 
 [node name="Preview" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
@@ -150,15 +191,15 @@ margin_bottom = 174.0
 text = "Preview Output"
 
 [node name="Preview2" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
-margin_top = 182.0
+margin_top = 238.0
 margin_right = 202.0
-margin_bottom = 202.0
+margin_bottom = 258.0
 text = "Save"
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="HBoxContainer/HBoxContainer"]
 margin_left = 206.0
 margin_right = 258.0
-margin_bottom = 202.0
+margin_bottom = 258.0
 
 [node name="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer2" instance=ExtResource( 1 )]
 
@@ -202,6 +243,11 @@ access = 2
 current_dir = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator"
 current_path = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator/"
 
+[connection signal="value_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer4/Trials" to="." method="_on_Trials_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer3/MinK" to="." method="_on_MinK_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer6/MaxK" to="." method="_on_MaxK_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer7/Interval" to="." method="_on_Interval_value_changed"]
+[connection signal="value_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/MarginContainer/VBoxContainer/HBoxContainer8/Threshold" to="." method="_on_Threshold_value_changed"]
 [connection signal="text_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer5/InputLine" to="." method="_on_InputFolder_text_changed"]
 [connection signal="button_up" from="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer5/InputDir" to="." method="_on_InputFolderDir_button_up"]
 [connection signal="text_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/OutputLine" to="." method="_on_OutputFolder_text_changed"]
