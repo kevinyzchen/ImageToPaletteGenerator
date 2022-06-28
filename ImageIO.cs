@@ -3,7 +3,10 @@ using PercetualColors;
 
 namespace ImageToPaletteGenerator
 {
-    public static class ImageUtility
+    /// <summary>
+    /// Helper class with functions to deal with writing and reading images
+    /// </summary>
+    public static class ImageIO
     {
         public static UberColor[,] GetImagePixels(string imagePath)
         {
@@ -29,5 +32,7 @@ namespace ImageToPaletteGenerator
             data.Unlock();
             return pixelArray;
         }
+        
+        
     }
 }

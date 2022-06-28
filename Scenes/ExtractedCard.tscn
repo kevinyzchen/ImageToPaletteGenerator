@@ -1,0 +1,21 @@
+[gd_scene format=2]
+
+[node name="HBoxContainer" type="HBoxContainer"]
+margin_right = 52.0
+margin_bottom = 14.0
+
+[node name="Label" type="Label" parent="."]
+margin_right = 44.0
+margin_bottom = 14.0
+text = "asdasd"
+
+[node name="GridContainer2" type="GridContainer" parent="."]
+margin_left = 48.0
+margin_right = 48.0
+margin_bottom = 14.0
+columns = 8
+
+[node name="TextureRect" type="TextureRect" parent="."]
+margin_left = 52.0
+margin_right = 52.0
+margin_bottom = 14.0

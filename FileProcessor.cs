@@ -7,7 +7,6 @@ using Kneedle;
 using MediaToolkit.Model;
 using MediaToolkit.Options;
 using ML;
-using Newtonsoft.Json;
 using PercetualColors;
 
 namespace ImageToPaletteGenerator
@@ -67,19 +66,11 @@ namespace ImageToPaletteGenerator
             var colorsFromFiles = new Dictionary<string, List<Godot.Color>>();
             foreach (var processResultFilePath in ProcessResultFilePaths)
             {
-                var colors = ColorSpaceReader.LoadColorsFromFile(processResultFilePath);
+                var colors = ColorSpaceIO.LoadColorsFromFile(processResultFilePath);
                 var gdColors = colors.Select(o => o.Color).ToList();
                 colorsFromFiles.Add(Path.GetFileNameWithoutExtension(processResultFilePath), gdColors);
             }
             return colorsFromFiles;
-        }
-            
-        private string WritePaletteToDisk(ColorSpace colorPalette, string name, string path)
-        {
-            var savePath = path + "colorspace_" + name + ".json";
-            var output = JsonConvert.SerializeObject(colorPalette, Formatting.Indented);
-            File.WriteAllText(savePath, output);
-            return savePath;
         }
 
         private string ProcessImage(string path, string savePath)
@@ -87,14 +78,14 @@ namespace ImageToPaletteGenerator
             var palette = ImageToPalette(path);
             var colorPalette = new ColorSpace(palette, new List<string>(),
                 (string)_processingParams["name"]);
-            var result = WritePaletteToDisk(colorPalette, Path.GetFileNameWithoutExtension(path), savePath);
+            var result = ColorSpaceIO.WriteColorSpaceToDisk(colorPalette, Path.GetFileNameWithoutExtension(path), savePath);
             _filesProcessed++;
             return result;
         }
 
         private List<UberColor> ImageToPalette(string path)
         {
-            var pixels = ImageUtility.GetImagePixels(path);
+            var pixels = ImageIO.GetImagePixels(path);
             var palette = new List<UberColor>();
             if ((string)_processingParams["method"] == "KMEANS")
                 palette = UseKMeans(pixels);
@@ -113,19 +104,10 @@ namespace ImageToPaletteGenerator
                 counter++;
             }
             //
-
             var minK = (int)_processingParams["min_k"];
             var maxK = (int)_processingParams["max_k"];
             var kMeans = GetKMeans(data, minK, maxK);
-            var palette = new List<UberColor>();
-            foreach (var i in kMeans.means)
-            {
-                var newLab = new Lab((float)i[0], (float)i[1], (float)i[2]);
-                var newColor = new UberColor(newLab);
-                palette.Add(newColor);
-            }
-
-            return palette;
+            return kMeans.means.Select(i => new Lab((float)i[0], (float)i[1], (float)i[2])).Select(newLab => new UberColor(newLab)).ToList();
         }
 
         private KMeans GetKMeans(double[][] data, int minK, int maxK)
@@ -189,7 +171,7 @@ namespace ImageToPaletteGenerator
                 var result = ProcessImage(file, savePath);
                 tmpPalettePaths.Add(result);
             }
-            var colors = ColorSpaceReader.LoadColorsFromFiles(tmpPalettePaths);
+            var colors = ColorSpaceIO.LoadColorsFromFiles(tmpPalettePaths);
             //Filter colors for distance
             colors.Shuffle();
             var remainingColors = new Queue<UberColor>(colors);
@@ -218,7 +200,7 @@ namespace ImageToPaletteGenerator
 
             var videoPalette = new ColorSpace(selectedColors, new List<string>(),
                 (string)_processingParams["name"]);
-            var videoPalettePath = WritePaletteToDisk(videoPalette, (string)_processingParams["name"], savePath);
+            var videoPalettePath = ColorSpaceIO.WriteColorSpaceToDisk(videoPalette, (string)_processingParams["name"], savePath);
             tmpPalettePaths.ForEach(File.Delete);
             tmpImagePaths.ForEach(File.Delete);
             _filesProcessed++;

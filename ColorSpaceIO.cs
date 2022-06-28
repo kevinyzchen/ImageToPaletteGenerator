@@ -5,19 +5,28 @@ using PercetualColors;
 
 namespace ImageToPaletteGenerator
 {
-    public static class ColorSpaceReader
+    /// <summary>
+    /// Helper class with functions for reading and writing Color Space json objects
+    /// </summary>
+    public static class ColorSpaceIO
     {
         public static List<UberColor> LoadColorsFromFile(string path)
         {
             var fileColors = new List<UberColor>();
-            var fileText = File.ReadAllText(path);
-            var output = JsonConvert.DeserializeObject<ColorSpace>(fileText);
+            var output = LoadColorSpaceFromFile(path);
             if (output != null)
                 foreach (var color in output.Colors)
                     fileColors.Add(color);
             return fileColors;
         }
 
+        private static ColorSpace LoadColorSpaceFromFile(string path)
+        {
+            var fileText = File.ReadAllText(path);
+            ColorSpace output = JsonConvert.DeserializeObject<ColorSpace>(fileText);
+            return output;
+        }
+        
         public static Dictionary<string, List<UberColor>> LoadColorsFromFolder(string folderPath)
         {
             var files = Directory.GetFiles(folderPath);
@@ -29,7 +38,6 @@ namespace ImageToPaletteGenerator
                 var name = Path.GetFileNameWithoutExtension(file);
                 colorsFromFile.Add(name, colors);
             }
-
             return colorsFromFile;
         }
 
@@ -43,6 +51,14 @@ namespace ImageToPaletteGenerator
             }
 
             return allColors;
+        }
+        
+        public static string WriteColorSpaceToDisk(ColorSpace colorPalette, string name, string path)
+        {
+            var savePath = path + "colorspace_" + name + ".json";
+            var output = JsonConvert.SerializeObject(colorPalette, Formatting.Indented);
+            File.WriteAllText(savePath, output);
+            return savePath;
         }
     }
 }
