@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using Kneedle;
@@ -21,6 +22,7 @@ namespace ImageToPaletteGenerator
         private int _totalFiles;
         private float _interval; //Snapshot every x seconds if the file is a video
         private float _threshold; //How close colors can be to each other in one color space before they're discarded
+        private int _maxRes;
         
         private static List<string> FindFilePaths(string inputPath, List<string> allFilePaths)
         {
@@ -42,12 +44,13 @@ namespace ImageToPaletteGenerator
             return allFilePaths;
         }
         
-        public List<string> Process(string inputPath, string outputPath, KmeansArgs args, float interval = .5f, float threshold = .1f)
+        public List<string> Process(string inputPath, string outputPath, KmeansArgs args, float interval = .5f, float threshold = .1f, int maxRes = 128)
         {
             ProcessResultFilePaths.Clear();
             _interval = interval;
             _threshold = threshold;
             _processingParams = args;
+            _maxRes = maxRes;
             
             //Get files
             var filePaths = FindFilePaths(inputPath, new List<string>());
@@ -78,7 +81,8 @@ namespace ImageToPaletteGenerator
 
         private List<UberColor> ImageToPalette(string path)
         {
-            var pixels = ImageIO.GetImagePixels(path);
+            var image = Image.FromFile(path);
+            var pixels = ImageIO.GetImageColors(image, _maxRes);
             var palette = new List<UberColor>();
             palette = UseKMeans(pixels);
             return palette;

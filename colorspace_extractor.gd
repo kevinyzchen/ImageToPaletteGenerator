@@ -12,7 +12,7 @@ var max_k : int = 24 #Max amount of groups to check for kmeans
 var interval : float = 5.0 # Takes an image sample every "interval" seconds if the file is a video
 var threshold : float = .05 # Avoids having colors that are closer than the "threshold"
 var trials : int = 3 #Amount of times to test a K value with kmeans before settling on the best init group
-
+var max_resolution : int = 256 #the down sampled size of analyzed files
 ##UI
 export(NodePath) var preview_grid_path
 onready var preview_grid : GridContainer = get_node(preview_grid_path)
@@ -39,7 +39,7 @@ func _ready():
 
 func _process_data():
 	#Calls wrapper GodotFileProcessor.cs
-	processor.Process(input_path, output_path, {"min_k" : min_k, "max_k" : max_k, "trials" : trials, "interval" : interval, "threshold" : threshold})
+	processor.Process(input_path, output_path, {"min_k" : min_k, "max_k" : max_k, "trials" : trials, "interval" : interval, "threshold" : threshold, "max_res" : max_resolution})
 	
 func preview():
 	clear_preview()
@@ -104,3 +104,7 @@ func _on_Interval_value_changed(value):
 
 func _on_Threshold_value_changed(value):
 	threshold = value
+
+
+func _on_MaxResolution_value_changed(value):
+	max_resolution = value

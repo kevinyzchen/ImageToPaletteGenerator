@@ -30,6 +30,13 @@ namespace ImageToPaletteGenerator
             return colorsFromFiles;
         }
 
+        /// <summary>
+        /// Process the input path, creating a color space json object for all files found
+        /// </summary>
+        /// <param name="inputPath">Path to target file/s.</param>
+        /// <param name="outputPath">Path to save resulting json files.</param>
+        /// <param name="args">Arguments passed in from Godot.</param>
+        /// <returns>A list of processed palettes as json objects.</returns>
         public List<string> Process(string inputPath, string outputPath, Dictionary args = null)
         {
             ProcessResultFilePaths.Clear();
@@ -41,7 +48,8 @@ namespace ImageToPaletteGenerator
             };
             var interval = (float)args["interval"];
             var threshold = (float)args["threshold"];
-            var result = _fileProcessor.Process(inputPath, outputPath, Kmeans, interval, threshold);
+            var maxRes = (int)args["max_res"];
+            var result = _fileProcessor.Process(inputPath, outputPath, Kmeans, interval, threshold, maxRes);
             ProcessResultFilePaths.AddRange(result);
             return ProcessResultFilePaths;
         }
