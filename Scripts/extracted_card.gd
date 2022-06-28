@@ -14,6 +14,8 @@ func load_data(string_name : String, colors, image : ImageTexture):
 	tex.texture = image
 	_preview_image = image
 	_colors = colors
+	if string_name.length() > 12:
+		string_name = string_name.left(12)
 	label.text = string_name
 	make_palette_preview()
 	
