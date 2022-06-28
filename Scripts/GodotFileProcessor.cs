@@ -1,7 +1,10 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Godot;
 using Godot.Collections;
+using Array = Godot.Collections.Array;
+using Path = System.IO.Path;
 
 namespace ImageToPaletteGenerator
 {
@@ -15,19 +18,34 @@ namespace ImageToPaletteGenerator
             _fileProcessor = new FileProcessor();
         }
 
-        private List<string> ProcessResultFilePaths { get; set; } = new List<string>();
+        public List<Tuple<string, string>> ProcessResultFilePaths { get; set; } = new List<Tuple<string, string>>();
         private readonly FileProcessor _fileProcessor;
 
-        public System.Collections.Generic.Dictionary<string, List<Color>> Preview()
+        public Dictionary Preview()
         {
-            var colorsFromFiles = new System.Collections.Generic.Dictionary<string, List<Color>>();
+            var namesFromFiles = new List<string>();
+            var colorsFromFiles = new Array();
+            var thumbnailsPaths = new List<string>();
+
             foreach (var processResultFilePath in ProcessResultFilePaths)
             {
-                var colors = PaletteIO.LoadColorsFromFile(processResultFilePath);
-                var gdColors = colors.Select(o => o.Color).ToList();
-                colorsFromFiles.Add(System.IO.Path.GetFileNameWithoutExtension(processResultFilePath), gdColors);
+                var colors = PaletteIO.LoadColorsFromFile(processResultFilePath.Item1);
+                GD.PrintErr(colors.Count);
+                Array colorArray = new Array();
+                var gdColors = colors.Select(o => o.Color);
+                foreach (var color in gdColors)
+                {
+                    colorArray.Add(color);
+                }
+                colorsFromFiles.Add(colorArray);
+                thumbnailsPaths.Add(processResultFilePath.Item2);
+                namesFromFiles.Add(Path.GetFileNameWithoutExtension(processResultFilePath.Item1));
             }
-            return colorsFromFiles;
+            Dictionary results = new Dictionary();
+            results["names"] = namesFromFiles;
+            results["thumbnails"] = thumbnailsPaths;
+            results["palettes"] = colorsFromFiles;
+            return results;
         }
 
         /// <summary>
@@ -37,7 +55,7 @@ namespace ImageToPaletteGenerator
         /// <param name="outputPath">Path to save resulting json files.</param>
         /// <param name="args">Arguments passed in from Godot.</param>
         /// <returns>A list of processed palettes as json objects.</returns>
-        public List<string> Process(string inputPath, string outputPath, Dictionary args = null)
+        public void Process(string inputPath, string outputPath, Dictionary args = null)
         {
             ProcessResultFilePaths.Clear();
             var Kmeans = new KmeansArgs
@@ -50,8 +68,7 @@ namespace ImageToPaletteGenerator
             var threshold = (float)args["threshold"];
             var maxRes = (int)args["max_res"];
             var result = _fileProcessor.Process(inputPath, outputPath, Kmeans, interval, threshold, maxRes);
-            ProcessResultFilePaths.AddRange(result);
-            return ProcessResultFilePaths;
+            ProcessResultFilePaths = result;
         }
     }
 }

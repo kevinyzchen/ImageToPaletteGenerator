@@ -6,11 +6,15 @@ var _preview_image : ImageTexture
 
 onready var tex = $TextureRect
 onready var palette_box = $HBoxContainer
+onready var label = $Label
 
-func load_data(colors, image : ImageTexture):
+
+func load_data(string_name : String, colors, image : ImageTexture):
+	printerr(image)
 	tex.texture = image
 	_preview_image = image
 	_colors = colors
+	label.text = string_name
 	make_palette_preview()
 	
 func make_palette_preview():

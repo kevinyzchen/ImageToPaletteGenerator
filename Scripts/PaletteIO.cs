@@ -41,7 +41,7 @@ namespace ImageToPaletteGenerator
             return colorsFromFile;
         }
 
-        public static List<UberColor> LoadColorsFromFiles(List<string> colorPalettePaths)
+        public static List<UberColor> LoadColorsFromFiles(IEnumerable<string> colorPalettePaths)
         {
             var allColors = new List<UberColor>();
             foreach (var path in colorPalettePaths)

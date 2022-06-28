@@ -45,20 +45,25 @@ func _process_data():
 	
 func preview():
 	clear_preview()
-	var colors_from_files : Dictionary = processor.Preview()
-	for file in colors_from_files:
-		var color_list = colors_from_files[file]
-		var card = create_new_preview_card(color_list)
+	var result : Dictionary = processor.Preview()
+	printerr(result)
+	for i in result["palettes"].size():
+		var color_list = result["palettes"][i]
+		print(color_list.size(), "SDSD")
+		var thumbnail_path = result["thumbnails"][i]
+		var string_name = result["names"][i]
+		var card = create_new_preview_card(string_name, color_list, thumbnail_path)
 		preview_objects.append(card)
 		
-func create_new_preview_card(colors) -> ExtractedCard:
+func create_new_preview_card(string_name : String, colors , thumbnail_path : String) -> ExtractedCard:
 	var new_card = card.instance()
 	var imageTexture = ImageTexture.new()
 	var image = Image.new()
-	image.load("res://icon.png");
+	image.load(thumbnail_path);
 	imageTexture.create_from_image(image);
 	preview.add_child(new_card)
-	new_card.load_data(colors, imageTexture)
+	new_card.name= string_name
+	new_card.load_data(string_name, colors, imageTexture)
 	return new_card
 	
 func clear_preview():

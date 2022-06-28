@@ -203,13 +203,6 @@ margin_right = 234.0
 margin_bottom = 234.0
 text = "Extract"
 
-[node name="Preview" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
-visible = false
-margin_top = 154.0
-margin_right = 187.0
-margin_bottom = 174.0
-text = "Preview Output"
-
 [node name="Preview2" type="Button" parent="HBoxContainer/HBoxContainer/VBoxContainer"]
 margin_top = 238.0
 margin_right = 234.0
@@ -266,7 +259,6 @@ current_path = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator/"
 [connection signal="text_changed" from="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/OutputLine" to="." method="_on_OutputFolder_text_changed"]
 [connection signal="button_up" from="HBoxContainer/HBoxContainer/VBoxContainer/HBoxContainer2/OutputDir" to="." method="_on_OutputFolderDir_button_up"]
 [connection signal="button_up" from="HBoxContainer/HBoxContainer/VBoxContainer/Extract" to="." method="_on_Extract_button_up"]
-[connection signal="button_up" from="HBoxContainer/HBoxContainer/VBoxContainer/Preview" to="." method="_on_Preview_button_up"]
 [connection signal="button_up" from="HBoxContainer/HBoxContainer/VBoxContainer/Preview2" to="." method="_on_Preview_button_up"]
 [connection signal="dir_selected" from="OutputFolderDialog" to="." method="_on_OutputFolderDialog_dir_selected"]
 [connection signal="dir_selected" from="InputFileDialog" to="." method="_on_InputFileDialog_dir_selected"]

@@ -26,11 +26,10 @@ namespace ImageToPaletteGenerator
             public float Interval;
         }
 
-        private static UberColor[,] GetImageColors(Image image, int maxRes = 128)
+        private static UberColor[,] GetImageColors(Image image, out Bitmap thumbBmp, int maxRes = 128)
         {
             int thumbWidth;
             int thumbHeight;
-            Bitmap thumbBmp;
 
             if (image.Height < maxRes && image.Width < maxRes)
             {
@@ -50,7 +49,7 @@ namespace ImageToPaletteGenerator
                     new Bitmap(image.GetThumbnailImage(thumbWidth
                         , thumbHeight, ThumbnailCallback, IntPtr.Zero));
             }
-
+            
             var uberColors = new UberColor[thumbWidth, thumbHeight];
 
             for (var i = 0; i < thumbWidth; i++)
@@ -68,12 +67,13 @@ namespace ImageToPaletteGenerator
             return false;
         }
 
-        public static List<UberColor> ImageToPalette(string path, ExtractionArgs args)
+        public static List<UberColor> ImageToPalette(string path, ExtractionArgs args, out Bitmap thumbnail )
         {
             var image = Image.FromFile(path);
-            var pixels = GetImageColors(image, args.MaxRes);
+            var pixels = GetImageColors(image, out Bitmap thumbBmp, args.MaxRes);
             var palette = new List<UberColor>();
             palette = GetPaletteFromColorData(pixels, args);
+            thumbnail = thumbBmp;
             return palette;
         }
 

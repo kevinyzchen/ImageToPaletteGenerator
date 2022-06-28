@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.IO;
+using System.Linq;
 using MediaToolkit.Model;
 using MediaToolkit.Options;
 using static ImageToPaletteGenerator.PaletteExtraction;
@@ -12,7 +14,7 @@ namespace ImageToPaletteGenerator
     /// </summary>
     public class FileProcessor
     {
-        private List<string> ProcessResultFilePaths { get; set; } = new List<string>();
+        private List<Tuple<string, string>> ProcessResultFilePaths { get; set; } = new List<Tuple<string, string>>();
         private ExtractionArgs _extractionArgs;
         private int _filesProcessed;
         private int _totalFiles;
@@ -35,7 +37,7 @@ namespace ImageToPaletteGenerator
             return allFilePaths;
         }
 
-        public List<string> Process(string inputPath, string outputPath, KmeansArgs args, float interval = .5f,
+        public List<Tuple<string, string>> Process(string inputPath, string outputPath, KmeansArgs args, float interval = .5f,
             float threshold = .1f, int maxRes = 128)
         {
             ProcessResultFilePaths.Clear();
@@ -56,49 +58,53 @@ namespace ImageToPaletteGenerator
             foreach (var path in filePaths)
             {
                 var extension = Path.GetExtension(path);
-                string result = null;
-                if (ExtensionLists.ImageExtensions.Contains(extension)) result = ProcessImage(path, outputPath);
-                else if (ExtensionLists.VideoExtensions.Contains(extension)) result = ProcessVideo(path, outputPath);
-                if (result != null) ProcessResultFilePaths.Add(result);
+                List<Tuple<string, string>> result = null;
+                if (ExtensionLists.ImageExtensions.Contains(extension)) ProcessResultFilePaths.Add(ProcessImage(path, outputPath));
+                else if (ExtensionLists.VideoExtensions.Contains(extension)) ProcessResultFilePaths.AddRange(ProcessVideo(path, outputPath));
             }
 
             return ProcessResultFilePaths;
         }
 
-        private string ProcessImage(string path, string savePath)
+        private Tuple<string, string> ProcessImage(string path, string savePath)
         {
-            var palette = ImageToPalette(path, _extractionArgs);
+            var palette = ImageToPalette(path, _extractionArgs, out Bitmap thumbnail);
             var selectedColors = FilterColorListForDistance(palette, _extractionArgs.Threshold);
             var colorPalette = new Palette(selectedColors);
-            var result =
+            
+            var palettePath =
                 PaletteIO.WritePaletteToDisk(colorPalette, Path.GetFileNameWithoutExtension(path), savePath);
+            var thumbnailPath = savePath + Path.GetFileNameWithoutExtension(path) + ".png";
+            thumbnail.Save(thumbnailPath);
             _filesProcessed++;
+            var result = new Tuple<string, string>(palettePath, thumbnailPath);
             return result;
         }
 
-        private string ProcessVideo(string path, string savePath)
+        private List<Tuple<string, string>> ProcessVideo(string path, string savePath)
         {
             //Convert video to an image every x interval and saves them at a tmp path
-            var tmpImagePaths = VideoToImages(path);
-            var tmpPalettePaths = new List<string>();
-            foreach (var file in tmpImagePaths)
+            var imagePaths = VideoToImages(path);
+            var palettePaths = new List<Tuple<string, string>>();
+            foreach (var file in imagePaths)
             {
                 var result = ProcessImage(file, savePath);
-                tmpPalettePaths.Add(result);
+                palettePaths.Add(result);
             }
 
             //Save video palette
-            var colors = PaletteIO.LoadColorsFromFiles(tmpPalettePaths);
-            var selectedColors = FilterColorListForDistance(colors, _extractionArgs.Threshold);
-            var videoPalette = new Palette(selectedColors);
-            var videoPalettePath =
-                PaletteIO.WritePaletteToDisk(videoPalette, Path.GetFileNameWithoutExtension(path), savePath);
-            _filesProcessed++;
+            // var colors = PaletteIO.LoadColorsFromFiles(tmpPalettePaths.Select(tuple => tuple.Item2));
+            // var selectedColors = FilterColorListForDistance(colors, _extractionArgs.Threshold);
+            // var videoPalette = new Palette(selectedColors);
+            // var videoPalettePath =
+            //     PaletteIO.WritePaletteToDisk(videoPalette, Path.GetFileNameWithoutExtension(path), savePath);
+            // _filesProcessed++;
 
             //Clean up
-            tmpPalettePaths.ForEach(File.Delete);
-            tmpImagePaths.ForEach(File.Delete);
-            return videoPalettePath;
+            // tmpPalettePaths.ForEach(File.Delete);
+            // tmpImagePaths.ForEach(File.Delete);
+            
+            return palettePaths;
         }
 
         private List<string> VideoToImages(string path)
