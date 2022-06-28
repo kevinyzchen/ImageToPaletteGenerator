@@ -2,6 +2,9 @@
 
 namespace ImageToPaletteGenerator
 {
+    /// <summary>
+    /// Data class with supported extensions
+    /// </summary>
     public static class ExtensionLists
     {
         public static readonly ReadOnlyCollection<string> ImageExtensions =

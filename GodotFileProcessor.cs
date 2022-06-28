@@ -35,9 +35,9 @@ namespace ImageToPaletteGenerator
             ProcessResultFilePaths.Clear();
             var Kmeans = new KmeansArgs
             {
-                minK = (int)args["min_k"],
-                maxK = (int)args["max_k"],
-                trials = (int)args["trials"]
+                MinK = (int)args["min_k"],
+                MaxK = (int)args["max_k"],
+                Trials = (int)args["trials"]
             };
             var interval = (float)args["interval"];
             var threshold = (float)args["threshold"];

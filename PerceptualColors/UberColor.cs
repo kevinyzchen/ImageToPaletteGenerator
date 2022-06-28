@@ -4,6 +4,9 @@ using Newtonsoft.Json;
 
 namespace PercetualColors
 {
+    /// <summary>
+    /// Color class containing HSL/HSV/LAB data and helper functions
+    /// </summary>
     public class UberColor
     {
         private Color _color;
@@ -50,7 +53,6 @@ namespace PercetualColors
             Lab = ColorConversion.LinearSrgbToOklab(sRgb);
         }
 
-
         public Color Color
         {
             get => _color;
@@ -74,10 +76,15 @@ namespace PercetualColors
                     closestColor = i;
                 }
             }
-
             return closestColor;
         }
 
+        public double GetColorDistance(UberColor color)
+        {
+            return Lab.DistanceTo(color.Lab);
+        }
+
+        
         public override string ToString()
         {
             return (Hsl.H, Hsl.S, Hsl.L).ToString();

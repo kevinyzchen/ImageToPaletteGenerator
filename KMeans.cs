@@ -5,41 +5,41 @@ namespace ImageToPaletteGenerator
 
     public struct KmeansArgs
     {
-        public int minK;
-        public int maxK;
-        public int trials;
+        public int MinK;
+        public int MaxK;
+        public int Trials;
 
     }
     public class KMeans
 {
-    public int K; // number clusters (use lower k for indexing)
-    public double[][] data; // data to be clustered
-    public int N; // number data items
-    public int dim; // number values in each data item
-    public int maxIter; // max per single clustering attempt
-    public int[] clustering; // final cluster assignments
-    public double[][] means; // final cluster means aka centroids
-    public double wcss; // final total within-cluster sum of squares (inertia??)
-    public int[] counts; // final num items in each cluster
-    public Random rnd; // for initialization
+    private int K; // number clusters (use lower k for indexing)
+    private double[][] data; // data to be clustered
+    private int _n; // number data items
+    private int _dim; // number values in each data item
+    private int _maxIter; // max per single clustering attempt
+    private int[] _clustering; // final cluster assignments
+    public double[][] Means; // final cluster means aka centroids
+    public double Wcss; // final total within-cluster sum of squares (inertia??)
+    private int[] _counts; // final num items in each cluster
+    private Random _rnd; // for initialization
 
     public KMeans(int K, double[][] data,  int maxIter, int seed)
     {
         this.K = K;
         this.data = data; // reference copy
-        this.maxIter = maxIter;
+        this._maxIter = maxIter;
 
-        N = data.Length;
-        dim = data[0].Length;
+        _n = data.Length;
+        _dim = data[0].Length;
 
-        means = new double[K][]; // one mean per cluster
+        Means = new double[K][]; // one mean per cluster
         for (var k = 0; k < K; ++k)
-            means[k] = new double[dim];
-        clustering = new int[N]; // cell val is cluster ID, index is data item
-        counts = new int[K]; // one cell per cluster
-        wcss = double.MaxValue; // smaller is better
+            Means[k] = new double[_dim];
+        _clustering = new int[_n]; // cell val is cluster ID, index is data item
+        _counts = new int[K]; // one cell per cluster
+        Wcss = double.MaxValue; // smaller is better
 
-        rnd = new Random(seed);
+        _rnd = new Random(seed);
     } // ctor
 
     public void Cluster(int trials)
@@ -57,18 +57,18 @@ namespace ImageToPaletteGenerator
         // end-loop
         // if clustering is new best, update clustering, means, counts, wcss
 
-        var currClustering = new int[N]; // [0, 0, 0, 0, .. ]
+        var currClustering = new int[_n]; // [0, 0, 0, 0, .. ]
 
         var currMeans = new double[K][];
         for (var k = 0; k < K; ++k)
-            currMeans[k] = new double[dim];
+            currMeans[k] = new double[_dim];
 
-        InitPlusPlus(data, currClustering, currMeans, rnd);
+        InitPlusPlus(data, currClustering, currMeans, _rnd);
 
 
         bool changed; //  result from UpdateClustering (to exit loop)
         var iter = 0;
-        while (iter < maxIter)
+        while (iter < _maxIter)
         {
             UpdateMeans(currMeans, data, currClustering);
             changed = UpdateClustering(currClustering,
@@ -80,18 +80,18 @@ namespace ImageToPaletteGenerator
 
         var currWCSS = ComputeWithinClusterSS(data,
             currMeans, currClustering);
-        if (currWCSS < wcss) // new best clustering found
+        if (currWCSS < Wcss) // new best clustering found
         {
             // copy the clustering, means; compute counts; store WCSS
-            for (var i = 0; i < N; ++i)
-                clustering[i] = currClustering[i];
+            for (var i = 0; i < _n; ++i)
+                _clustering[i] = currClustering[i];
 
             for (var k = 0; k < K; ++k)
-            for (var j = 0; j < dim; ++j)
-                means[k][j] = currMeans[k][j];
+            for (var j = 0; j < _dim; ++j)
+                Means[k][j] = currMeans[k][j];
 
-            counts = ComputeCounts(K, currClustering);
-            wcss = currWCSS;
+            _counts = ComputeCounts(K, currClustering);
+            Wcss = currWCSS;
         }
     } // Cluster()
 

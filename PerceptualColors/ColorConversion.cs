@@ -3,7 +3,7 @@
 namespace PercetualColors
 {
     /// <summary>
-    /// 
+    /// Implementation of https://bottosson.github.io/posts/oklab/ in C#
     /// </summary>
     public static class ColorConversion
     {

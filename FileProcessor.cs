@@ -10,6 +10,9 @@ using PercetualColors;
 
 namespace ImageToPaletteGenerator
 {
+    /// <summary>
+    /// Main class that sorts through the input path and then converts all files found to color spaces
+    /// </summary>
     public class FileProcessor 
     {
         private List<string> ProcessResultFilePaths { get; set; } = new List<string>();
@@ -45,9 +48,13 @@ namespace ImageToPaletteGenerator
             _interval = interval;
             _threshold = threshold;
             _processingParams = args;
+            
+            //Get files
             var filePaths = FindFilePaths(inputPath, new List<string>());
             _totalFiles = filePaths.Count;
             _filesProcessed = 0;
+            
+            //Process files based on extensions
             foreach (var path in filePaths)
             {
                 var extension = Path.GetExtension(path);
@@ -80,6 +87,7 @@ namespace ImageToPaletteGenerator
         private List<UberColor> UseKMeans(UberColor[,] pixelColors)
         {
             //Change pixelColors to appropriate data type
+            Random kmeansRNG = new Random();
             var data = new double[pixelColors.Length][];
             var counter = 0;
             foreach (var i in pixelColors)
@@ -87,31 +95,29 @@ namespace ImageToPaletteGenerator
                 data[counter] = new[] { i.Lab.L, i.Lab.a, i.Lab.b };
                 counter++;
             }
-            //
-            var kMeans = GetKMeans(data, _processingParams.minK, _processingParams.maxK);
-            return kMeans.means.Select(i => new Lab((float)i[0], (float)i[1], (float)i[2])).Select(newLab => new UberColor(newLab)).ToList();
-        }
 
-        private KMeans GetKMeans(double[][] data, int minK, int maxK)
-        {
+            //Iterate through K values
             var kMeansFromK =
                 new Dictionary<int, KMeans>();
-            var x = new double[maxK - minK];
-            var y = new double[maxK - minK];
-            for (var i = 0; i < maxK - minK; i++)
+            var x = new double[_processingParams.MaxK - _processingParams.MinK];
+            var y = new double[_processingParams.MaxK -  _processingParams.MinK];
+            for (var i = 0; i < _processingParams.MaxK -  _processingParams.MinK; i++)
             {
-                var inputK = minK + i;
-                var kMeans = new KMeans(inputK, data, 3, 0);
+                int seed = kmeansRNG.Next();
+                var inputK =  _processingParams.MinK + i;
+                var kMeans = new KMeans(inputK, data, _processingParams.Trials, seed );
                 kMeans.Cluster(3);
                 kMeansFromK.Add(inputK, kMeans);
                 x[i] = inputK;
-                y[i] = kMeans.wcss;
+                y[i] = kMeans.Wcss;
             }
 
+            //Use knee method to find the best K value
             var k = KneedleAlgorithm.CalculateKneePoints(x, y, CurveDirection.Decreasing, Curvature.Counterclockwise);
             Debug.Assert(k != null, nameof(k) + " != null");
             var chosenKMeans = kMeansFromK[(int)Math.Floor((float)k)];
-            return chosenKMeans;
+            
+            return chosenKMeans.Means.Select(i => new Lab((float)i[0], (float)i[1], (float)i[2])).Select(newLab => new UberColor(newLab)).ToList();
         }
 
         private List<UberColor> FilterColorListForDistance( List<UberColor> colors)
@@ -147,6 +153,7 @@ namespace ImageToPaletteGenerator
         
         private string ProcessVideo(string path, string savePath)
         {
+            //Convert video to an image every x interval and saves them at a tmp path
             var tmpImagePaths = VideoToImages(path);
             List<string> tmpPalettePaths = new List<string>();
             foreach (var file in tmpImagePaths)
@@ -154,13 +161,17 @@ namespace ImageToPaletteGenerator
                 var result = ProcessImage(file, savePath);
                 tmpPalettePaths.Add(result);
             }
+            
+            //Save video palette
             var colors = ColorSpaceIO.LoadColorsFromFiles(tmpPalettePaths);
             var selectedColors = FilterColorListForDistance(colors);
             var videoPalette = new ColorSpace(selectedColors);
             var videoPalettePath = ColorSpaceIO.WriteColorSpaceToDisk(videoPalette, Path.GetFileNameWithoutExtension(path), savePath);
+            _filesProcessed++;
+            
+            //Clean up
             tmpPalettePaths.ForEach(File.Delete);
             tmpImagePaths.ForEach(File.Delete);
-            _filesProcessed++;
             return videoPalettePath;
         }
 
@@ -170,6 +181,8 @@ namespace ImageToPaletteGenerator
             var inputFile = new MediaFile { Filename = path };
             var engine = new MediaToolkit.Engine();
             engine.GetMetadata(inputFile);
+            //Get total frames based on interval
+            //Iterate through total frames, find an image every x seconds in the video, and save it
             var totalFrames = (int)Math.Floor((float)(inputFile.Metadata.Duration.TotalSeconds / _interval));
             for (var i = 0; i < totalFrames; i++)
             {
