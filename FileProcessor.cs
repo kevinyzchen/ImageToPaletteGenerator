@@ -69,9 +69,9 @@ namespace ImageToPaletteGenerator
         {
             var palette = ImageToPalette(path, _extractionArgs);
             var selectedColors = FilterColorListForDistance(palette, _extractionArgs.Threshold);
-            var colorPalette = new ColorSpace(selectedColors);
+            var colorPalette = new Palette(selectedColors);
             var result =
-                ColorSpaceIO.WriteColorSpaceToDisk(colorPalette, Path.GetFileNameWithoutExtension(path), savePath);
+                PaletteIO.WritePaletteToDisk(colorPalette, Path.GetFileNameWithoutExtension(path), savePath);
             _filesProcessed++;
             return result;
         }
@@ -88,11 +88,11 @@ namespace ImageToPaletteGenerator
             }
 
             //Save video palette
-            var colors = ColorSpaceIO.LoadColorsFromFiles(tmpPalettePaths);
+            var colors = PaletteIO.LoadColorsFromFiles(tmpPalettePaths);
             var selectedColors = FilterColorListForDistance(colors, _extractionArgs.Threshold);
-            var videoPalette = new ColorSpace(selectedColors);
+            var videoPalette = new Palette(selectedColors);
             var videoPalettePath =
-                ColorSpaceIO.WriteColorSpaceToDisk(videoPalette, Path.GetFileNameWithoutExtension(path), savePath);
+                PaletteIO.WritePaletteToDisk(videoPalette, Path.GetFileNameWithoutExtension(path), savePath);
             _filesProcessed++;
 
             //Clean up

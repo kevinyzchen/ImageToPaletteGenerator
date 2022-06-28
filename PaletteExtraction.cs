@@ -16,9 +16,13 @@ namespace ImageToPaletteGenerator
     {
         public struct ExtractionArgs
         {
+            
             public KmeansArgs KmeansArgs;
-            public float Threshold; //How close colors can be to each other in one color space before they're discarded
-            public int MaxRes;
+            // How close colors can be to each other in one color space before they're discarded
+            public float Threshold; 
+            // Highest resolution possible for an analyzed image. If the input image resolution is higher, it will be down sampled to the max resolution while maintain it's aspect ratio.
+            public int MaxRes; 
+            // The length of time between taking a thumbnail to analze when extract a palette fro ma video
             public float Interval;
         }
 
@@ -73,7 +77,7 @@ namespace ImageToPaletteGenerator
             return palette;
         }
 
-        public static List<UberColor> GetPaletteFromColorData(UberColor[,] pixelColors, ExtractionArgs args)
+        private static List<UberColor> GetPaletteFromColorData(UberColor[,] pixelColors, ExtractionArgs args)
         {
             //Change pixelColors to appropriate data type
             var kmeansRNG = new Random();

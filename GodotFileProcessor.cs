@@ -23,7 +23,7 @@ namespace ImageToPaletteGenerator
             var colorsFromFiles = new System.Collections.Generic.Dictionary<string, List<Color>>();
             foreach (var processResultFilePath in ProcessResultFilePaths)
             {
-                var colors = ColorSpaceIO.LoadColorsFromFile(processResultFilePath);
+                var colors = PaletteIO.LoadColorsFromFile(processResultFilePath);
                 var gdColors = colors.Select(o => o.Color).ToList();
                 colorsFromFiles.Add(System.IO.Path.GetFileNameWithoutExtension(processResultFilePath), gdColors);
             }

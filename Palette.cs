@@ -7,10 +7,10 @@ namespace ImageToPaletteGenerator
     /// <summary>
     /// A color space is a collection of colors. 
     /// </summary>
-    public class ColorSpace
+    public class Palette
     {
         [JsonConstructor]
-        public ColorSpace(List<UberColor> colors)
+        public Palette(List<UberColor> colors)
         {
             Colors = colors;
         }

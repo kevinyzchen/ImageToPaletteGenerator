@@ -68,6 +68,10 @@ func _on_InputFileDialog_file_selected(path):
 	input_path = path
 	input_folder_text.text = path
 
+func _on_InputFileDialog_dir_selected(path):
+	input_path = path
+	input_folder_text.text = path
+
 func _on_Preview_button_up():
 	preview()
 
@@ -108,3 +112,6 @@ func _on_Threshold_value_changed(value):
 
 func _on_MaxResolution_value_changed(value):
 	max_resolution = value
+
+
+

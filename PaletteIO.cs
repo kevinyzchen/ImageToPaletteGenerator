@@ -8,22 +8,22 @@ namespace ImageToPaletteGenerator
     /// <summary>
     /// Helper class with functions for reading and writing Color Space json objects
     /// </summary>
-    public static class ColorSpaceIO
+    public static class PaletteIO
     {
         public static List<UberColor> LoadColorsFromFile(string path)
         {
             var fileColors = new List<UberColor>();
-            var output = LoadColorSpaceFromFile(path);
+            var output = LoadPaletteFromFile(path);
             if (output != null)
                 foreach (var color in output.Colors)
                     fileColors.Add(color);
             return fileColors;
         }
 
-        private static ColorSpace LoadColorSpaceFromFile(string path)
+        private static Palette LoadPaletteFromFile(string path)
         {
             var fileText = File.ReadAllText(path);
-            ColorSpace output = JsonConvert.DeserializeObject<ColorSpace>(fileText);
+            Palette output = JsonConvert.DeserializeObject<Palette>(fileText);
             return output;
         }
         
@@ -53,7 +53,7 @@ namespace ImageToPaletteGenerator
             return allColors;
         }
         
-        public static string WriteColorSpaceToDisk(ColorSpace colorPalette, string name, string path)
+        public static string WritePaletteToDisk(Palette colorPalette, string name, string path)
         {
             var savePath = path + "colorspace_" + name + ".json";
             var output = JsonConvert.SerializeObject(colorPalette, Formatting.Indented);

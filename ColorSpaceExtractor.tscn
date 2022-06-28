@@ -258,9 +258,9 @@ margin_top = -65.0
 margin_right = 178.0
 margin_bottom = 65.0
 rect_min_size = Vector2( 200, 200 )
-window_title = "Open a File"
+window_title = "Open a File or Directory"
 resizable = true
-mode = 0
+mode = 3
 access = 2
 current_dir = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator"
 current_path = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator/"
@@ -279,4 +279,5 @@ current_path = "/Users/Yuzu/Documents/GitHub/Swazi/ImageToPaletteGenerator/"
 [connection signal="button_up" from="HBoxContainer/HBoxContainer/VBoxContainer/Preview" to="." method="_on_Preview_button_up"]
 [connection signal="button_up" from="HBoxContainer/HBoxContainer/VBoxContainer/Preview2" to="." method="_on_Preview_button_up"]
 [connection signal="dir_selected" from="OutputFolderDialog" to="." method="_on_OutputFolderDialog_dir_selected"]
+[connection signal="dir_selected" from="InputFileDialog" to="." method="_on_InputFileDialog_dir_selected"]
 [connection signal="file_selected" from="InputFileDialog" to="." method="_on_InputFileDialog_file_selected"]
