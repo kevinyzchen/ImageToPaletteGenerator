@@ -6,18 +6,19 @@ using System.Linq;
 using Kneedle;
 using MediaToolkit.Model;
 using MediaToolkit.Options;
-using ML;
 using PercetualColors;
 
 namespace ImageToPaletteGenerator
 {
-    public class FileProcessor : Godot.Reference, IProcessor
+    public class FileProcessor 
     {
         private List<string> ProcessResultFilePaths { get; set; } = new List<string>();
-        private Godot.Collections.Dictionary _processingParams;
+        private KmeansArgs _processingParams;
         private int _filesProcessed;
         private int _totalFiles;
-
+        private float _interval; //Snapshot every x seconds if the file is a video
+        private float _threshold; //How close colors can be to each other in one color space before they're discarded
+        
         private static List<string> FindFilePaths(string inputPath, List<string> allFilePaths)
         {
             if (Directory.Exists(inputPath))
@@ -38,8 +39,10 @@ namespace ImageToPaletteGenerator
             return allFilePaths;
         }
         
-        public List<string> Process(string inputPath, string outputPath, Godot.Collections.Dictionary args = null)
+        public List<string> Process(string inputPath, string outputPath, KmeansArgs args, float interval = .5f, float threshold = .1f)
         {
+            _interval = interval;
+            _threshold = threshold;
             _processingParams = args;
             var filePaths = FindFilePaths(inputPath, new List<string>());
             _totalFiles = filePaths.Count;
@@ -61,23 +64,10 @@ namespace ImageToPaletteGenerator
             return ProcessResultFilePaths;
         }
 
-        public Dictionary<string, List<Godot.Color>> Preview()
-        {
-            var colorsFromFiles = new Dictionary<string, List<Godot.Color>>();
-            foreach (var processResultFilePath in ProcessResultFilePaths)
-            {
-                var colors = ColorSpaceIO.LoadColorsFromFile(processResultFilePath);
-                var gdColors = colors.Select(o => o.Color).ToList();
-                colorsFromFiles.Add(Path.GetFileNameWithoutExtension(processResultFilePath), gdColors);
-            }
-            return colorsFromFiles;
-        }
-
         private string ProcessImage(string path, string savePath)
         {
             var palette = ImageToPalette(path);
-            var colorPalette = new ColorSpace(palette, new List<string>(),
-                (string)_processingParams["name"]);
+            var colorPalette = new ColorSpace(palette);
             var result = ColorSpaceIO.WriteColorSpaceToDisk(colorPalette, Path.GetFileNameWithoutExtension(path), savePath);
             _filesProcessed++;
             return result;
@@ -87,9 +77,7 @@ namespace ImageToPaletteGenerator
         {
             var pixels = ImageIO.GetImagePixels(path);
             var palette = new List<UberColor>();
-            if ((string)_processingParams["method"] == "KMEANS")
-                palette = UseKMeans(pixels);
-            else if ((string)_processingParams["method"] == "DBSCAN") palette = UseDBScan(pixels);
+            palette = UseKMeans(pixels);
             return palette;
         }
 
@@ -104,9 +92,7 @@ namespace ImageToPaletteGenerator
                 counter++;
             }
             //
-            var minK = (int)_processingParams["min_k"];
-            var maxK = (int)_processingParams["max_k"];
-            var kMeans = GetKMeans(data, minK, maxK);
+            var kMeans = GetKMeans(data, _processingParams.minK, _processingParams.maxK);
             return kMeans.means.Select(i => new Lab((float)i[0], (float)i[1], (float)i[2])).Select(newLab => new UberColor(newLab)).ToList();
         }
 
@@ -119,7 +105,7 @@ namespace ImageToPaletteGenerator
             for (var i = 0; i < maxK - minK; i++)
             {
                 var inputK = minK + i;
-                var kMeans = new KMeans(inputK, data, "plusplus", 3, 0);
+                var kMeans = new KMeans(inputK, data, 3, 0);
                 kMeans.Cluster(3);
                 kMeansFromK.Add(inputK, kMeans);
                 x[i] = inputK;
@@ -132,36 +118,6 @@ namespace ImageToPaletteGenerator
             return chosenKMeans;
         }
 
-        private List<UberColor> UseDBScan(UberColor[,] pixelColors)
-        {
-            //Change pixels to points
-            var points = new List<DBPoint>();
-            foreach (var color in pixelColors)
-            {
-                var L = (int)Math.Floor((float)color.Lab.L * 1000);
-                var a = (int)Math.Floor((float)color.Lab.a * 1000);
-                var b = (int)Math.Floor((float)color.Lab.b * 1000);
-                var newPoint = new DBPoint(L, a, b);
-                points.Add(newPoint);
-            }
-
-            double eps = (float)_processingParams["eps"];
-            var minPts = (int)_processingParams["min_pts"];
-            var clusters = DBScan.GetClusters(points, eps, minPts);
-            var representativeColors = new List<UberColor>();
-            foreach (var pointsList in clusters)
-            {
-                var rng = new Random();
-                var num = rng.Next(0, pointsList.Count);
-                var chosenPoint = pointsList[num];
-                representativeColors.Add(new UberColor(new Lab(chosenPoint.X / 1000.0, chosenPoint.Y / 1000.0,
-                    chosenPoint.Z / 1000.0)));
-            }
-
-            return representativeColors;
-            //need to choose a different color from clusters as representative clusters..
-        }
-        
         private string ProcessVideo(string path, string savePath)
         {
             var tmpImagePaths = VideoToImages(path);
@@ -191,16 +147,15 @@ namespace ImageToPaletteGenerator
                 foreach (var compareColor in compareColors)
                 {
                     var dist = (float)checkingColor.Hsl.DistanceTo(compareColor.Hsl);
-                    if (!(dist < (float)_processingParams["threshold"])) continue;
+                    if (!(dist < _threshold)) continue;
                     success = false;
                     break;
                 }
                 if (success) selectedColors.Add(checkingColor);
             }
 
-            var videoPalette = new ColorSpace(selectedColors, new List<string>(),
-                (string)_processingParams["name"]);
-            var videoPalettePath = ColorSpaceIO.WriteColorSpaceToDisk(videoPalette, (string)_processingParams["name"], savePath);
+            var videoPalette = new ColorSpace(selectedColors);
+            var videoPalettePath = ColorSpaceIO.WriteColorSpaceToDisk(videoPalette, Path.GetFileNameWithoutExtension(path), savePath);
             tmpPalettePaths.ForEach(File.Delete);
             tmpImagePaths.ForEach(File.Delete);
             _filesProcessed++;
@@ -213,13 +168,12 @@ namespace ImageToPaletteGenerator
             var inputFile = new MediaFile { Filename = path };
             var engine = new MediaToolkit.Engine();
             engine.GetMetadata(inputFile);
-            var interval = (float)_processingParams["interval"];
-            var totalFrames = (int)Math.Floor((float)(inputFile.Metadata.Duration.TotalSeconds / interval));
+            var totalFrames = (int)Math.Floor((float)(inputFile.Metadata.Duration.TotalSeconds / _interval));
             for (var i = 0; i < totalFrames; i++)
             {
                 var outputFilePath = path + Path.GetFileNameWithoutExtension(path) + i + ".png";
                 var outputFile = new MediaFile { Filename = outputFilePath };
-                double time = interval * i + 3;
+                double time = _interval * i + 3;
                 var options = new ConversionOptions { Seek = TimeSpan.FromSeconds(time) };
                 engine.GetThumbnail(inputFile, outputFile, options);
                 tmpImagePaths.Add(outputFilePath);

@@ -1,6 +1,7 @@
-[gd_scene load_steps=2 format=2]
+[gd_scene load_steps=3 format=2]
 
 [ext_resource path="res://video_to_colorspace_extractor.gd" type="Script" id=1]
+[ext_resource path="res://Scenes/ExtractedCard.tscn" type="PackedScene" id=2]
 
 [node name="VideoExtractor" type="Node"]
 script = ExtResource( 1 )
@@ -212,25 +213,7 @@ margin_left = 206.0
 margin_right = 258.0
 margin_bottom = 170.0
 
-[node name="HBoxContainer" type="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer2"]
-margin_right = 52.0
-margin_bottom = 14.0
-
-[node name="Label" type="Label" parent="HBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_right = 44.0
-margin_bottom = 14.0
-text = "asdasd"
-
-[node name="GridContainer2" type="GridContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_left = 48.0
-margin_right = 48.0
-margin_bottom = 14.0
-columns = 8
-
-[node name="TextureRect" type="TextureRect" parent="HBoxContainer/HBoxContainer/VBoxContainer2/HBoxContainer"]
-margin_left = 52.0
-margin_right = 52.0
-margin_bottom = 14.0
+[node name="HBoxContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer2" instance=ExtResource( 2 )]
 
 [node name="GridContainer" type="GridContainer" parent="HBoxContainer/HBoxContainer/VBoxContainer2"]
 margin_top = 18.0

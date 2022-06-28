@@ -14,6 +14,11 @@ _global_script_classes=[ {
 "language": "GDScript",
 "path": "res://colorspace_extractor.gd"
 }, {
+"base": "HBoxContainer",
+"class": "ExtractedCard",
+"language": "GDScript",
+"path": "res://Scripts/extracted_card.gd"
+}, {
 "base": "ColorSpaceExtractor",
 "class": "ImageToColorspaceExtractor",
 "language": "GDScript",
@@ -26,6 +31,7 @@ _global_script_classes=[ {
 } ]
 _global_script_class_icons={
 "ColorSpaceExtractor": "",
+"ExtractedCard": "",
 "ImageToColorspaceExtractor": "",
 "VideoToColorspaceExtractor": ""
 }

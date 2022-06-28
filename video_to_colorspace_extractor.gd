@@ -3,14 +3,13 @@ class_name VideoToColorspaceExtractor
 
 func _ready():
 	._ready()
-	var processor_script = load("res://FileProcessor.cs")
+	var processor_script = load("res://GodotFileProcessor.cs")
 	processor = processor_script.new()
 	assert(extract_button != null, "no extract button found")
 	print(processor)
 
 func _process_data():
-#	processor.Process(input_path, output_path, {"min_k" : 3, "max_k" : 12, "interval" : 40.0, "threshold" : .1, "method" : "KMEANS", "name" : "random", "tags" : ["test"]})
-	processor.Process(input_path, output_path, {"eps" : 15.0, "min_pts" : 3, "interval" : 40.0, "threshold" : .1, "method" : "DBSCAN", "name" : "random", "tags" : ["test"]})
+	processor.Process(input_path, output_path, {"min_k" : 3, "max_k" : 12, "trials" : 5, "interval" : 40.0, "threshold" : .1})
 
 func _on_InputFileDialog_file_selected(path):
 	input_path = path

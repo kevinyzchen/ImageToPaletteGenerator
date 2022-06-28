@@ -10,19 +10,14 @@ namespace ImageToPaletteGenerator
     public class ColorSpace
     {
         [JsonConstructor]
-        public ColorSpace(List<UberColor> colors,  List<string> tags, string name)
+        public ColorSpace(List<UberColor> colors)
         {
-            Name = name;
             Colors = colors;
-            Tags = tags;
         }
         public List<UberColor> Colors { get; }
-
         /// <summary>
         /// The palette from each individual frame/image
         /// </summary>
         public Dictionary<string, List<UberColor>> colorSpaceGroups;
-        public List<string> Tags { get; }
-        public string Name { get; }
     }
 }

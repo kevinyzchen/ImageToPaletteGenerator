@@ -1,14 +1,21 @@
 ﻿using System;
 
-namespace ML
+namespace ImageToPaletteGenerator
 {
+
+    public struct KmeansArgs
+    {
+        public int minK;
+        public int maxK;
+        public int trials;
+
+    }
     public class KMeans
 {
     public int K; // number clusters (use lower k for indexing)
     public double[][] data; // data to be clustered
     public int N; // number data items
     public int dim; // number values in each data item
-    public string initMethod; // "plusplus", "forgy" "random"
     public int maxIter; // max per single clustering attempt
     public int[] clustering; // final cluster assignments
     public double[][] means; // final cluster means aka centroids
@@ -16,11 +23,10 @@ namespace ML
     public int[] counts; // final num items in each cluster
     public Random rnd; // for initialization
 
-    public KMeans(int K, double[][] data, string initMethod, int maxIter, int seed)
+    public KMeans(int K, double[][] data,  int maxIter, int seed)
     {
         this.K = K;
         this.data = data; // reference copy
-        this.initMethod = initMethod;
         this.maxIter = maxIter;
 
         N = data.Length;
@@ -57,10 +63,8 @@ namespace ML
         for (var k = 0; k < K; ++k)
             currMeans[k] = new double[dim];
 
-        if (initMethod == "plusplus")
-            InitPlusPlus(data, currClustering, currMeans, rnd);
-        else
-            throw new Exception("not supported");
+        InitPlusPlus(data, currClustering, currMeans, rnd);
+
 
         bool changed; //  result from UpdateClustering (to exit loop)
         var iter = 0;
@@ -329,17 +333,5 @@ namespace ML
     //  }
     //}
 
-    //private static int[] PickDistinct(int n, int N, Random rnd)  // for Forgy init
-    //{
-    //  // pick n distict integers from  [0 .. N)
-    //  int[] indices = new int[N];
-    //  int[] result = new int[n];
-    //  for (int i = 0; i < N; ++i)
-    //    indices[i] = i;
-    //  Shuffle(indices, rnd);
-    //  for (int i = 0; i < n; ++i)
-    //    result[i] = indices[i];
-    //  return result;
-    //}
 } // class KMeans
 }
