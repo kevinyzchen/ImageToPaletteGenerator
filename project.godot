@@ -12,9 +12,9 @@ _global_script_classes=[ {
 "base": "Node",
 "class": "ColorSpaceExtractor",
 "language": "GDScript",
-"path": "res://colorspace_extractor.gd"
+"path": "res://Scripts/colorspace_extractor.gd"
 }, {
-"base": "HBoxContainer",
+"base": "VBoxContainer",
 "class": "ExtractedCard",
 "language": "GDScript",
 "path": "res://Scripts/extracted_card.gd"
@@ -27,7 +27,7 @@ _global_script_class_icons={
 [application]
 
 config/name="ImageToPaletteGenerator"
-run/main_scene="res://ColorSpaceExtractor.tscn"
+run/main_scene="res://Scenes/ColorSpaceExtractor.tscn"
 config/icon="res://icon.png"
 
 [physics]

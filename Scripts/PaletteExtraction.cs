@@ -22,7 +22,7 @@ namespace ImageToPaletteGenerator
             public float Threshold; 
             // Highest resolution possible for an analyzed image. If the input image resolution is higher, it will be down sampled to the max resolution while maintain it's aspect ratio.
             public int MaxRes; 
-            // The length of time between taking a thumbnail to analze when extract a palette fro ma video
+            // The length of time between taking a thumbnail to analyze when extract a palette fro ma video
             public float Interval;
         }
 

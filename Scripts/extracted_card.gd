@@ -1,16 +1,22 @@
-extends HBoxContainer
+extends VBoxContainer
 class_name ExtractedCard
 
-# Declare member variables here. Examples:
-# var a = 2
-# var b = "text"
+var _colors = []
+var _preview_image : ImageTexture
 
+onready var tex = $TextureRect
+onready var palette_box = $HBoxContainer
 
-# Called when the node enters the scene tree for the first time.
-func _ready():
-	pass # Replace with function body.
-
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-#func _process(delta):
-#	pass
+func load_data(colors, image : ImageTexture):
+	tex.texture = image
+	_preview_image = image
+	_colors = colors
+	make_palette_preview()
+	
+func make_palette_preview():
+	print(_colors.size(), "size")
+	for i in _colors.size():
+		var rect = ColorRect.new()
+		rect.rect_min_size = Vector2(48,48)
+		rect.color = _colors[i]
+		palette_box.add_child(rect)

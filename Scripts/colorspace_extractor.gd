@@ -3,6 +3,8 @@ class_name ColorSpaceExtractor
 
 var processor 
 var preview_objects = []
+onready var preview = $HBoxContainer/HBoxContainer/Preview
+var card = preload("res://Scenes/ExtractedCard.tscn")
 
 ### Passed Parameters ###
 var input_path : String 
@@ -33,7 +35,7 @@ export(NodePath) var input_folder_dialog_path
 onready var input_folder_dialog : FileDialog = get_node(input_folder_dialog_path)
 
 func _ready():
-	var processor_script = load("res://GodotFileProcessor.cs")
+	var processor_script = load("res://Scripts/GodotFileProcessor.cs")
 	processor = processor_script.new()
 	assert(extract_button != null, "no extract button found")
 
@@ -46,13 +48,19 @@ func preview():
 	var colors_from_files : Dictionary = processor.Preview()
 	for file in colors_from_files:
 		var color_list = colors_from_files[file]
-		for color in color_list:
-			var new_rect = ColorRect.new()
-			new_rect.color = color
-			new_rect.rect_min_size = Vector2(32,32)
-			preview_grid.add_child(new_rect)
-			preview_objects.append(new_rect)
-
+		var card = create_new_preview_card(color_list)
+		preview_objects.append(card)
+		
+func create_new_preview_card(colors) -> ExtractedCard:
+	var new_card = card.instance()
+	var imageTexture = ImageTexture.new()
+	var image = Image.new()
+	image.load("res://icon.png");
+	imageTexture.create_from_image(image);
+	preview.add_child(new_card)
+	new_card.load_data(colors, imageTexture)
+	return new_card
+	
 func clear_preview():
 	for i in preview_objects:
 		i.call_deferred("queue_free")
@@ -77,7 +85,7 @@ func _on_Preview_button_up():
 
 func _on_Extract_button_up():
 	yield(process_data(), "completed")
-
+	preview()
 func _on_OutputFolderDir_button_up():
 	output_folder_dialog.visible = true
 	
