@@ -30,6 +30,11 @@ config/name="ImageToPaletteGenerator"
 run/main_scene="res://Scenes/ColorSpaceExtractor.tscn"
 config/icon="res://icon.png"
 
+[display]
+
+window/size/width=1920
+window/size/height=1080
+
 [physics]
 
 common/enable_pause_aware_picking=true

@@ -9,10 +9,10 @@ var card = preload("res://Scenes/ExtractedCard.tscn")
 var input_path : String 
 var output_path : String
 var min_k : int = 3 #Min amount of groups check for kmeans
-var max_k : int = 24 #Max amount of groups to check for kmeans
+var max_k : int = 9 #Max amount of groups to check for kmeans
 var interval : float = 5.0 # Takes an image sample every "interval" seconds if the file is a video
 var threshold : float = .05 # Avoids having colors that are closer than the "threshold"
-var trials : int = 3 #Amount of times to test a K value with kmeans before settling on the best init group
+var trials : int = 1 #Amount of times to test a K value with kmeans before settling on the best init group
 var max_resolution : int = 256 #the down sampled size of analyzed files
 ##UI
 export(NodePath) var preview_grid_path

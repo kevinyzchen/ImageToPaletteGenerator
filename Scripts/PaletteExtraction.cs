@@ -104,10 +104,10 @@ namespace ImageToPaletteGenerator
                 y[i] = kMeans.Wcss;
             }
 
-            //Use knee method to find the best K value
-            var k = KneedleAlgorithm.CalculateKneePoints(x, y, CurveDirection.Decreasing, Curvature.Counterclockwise);
+            //Use knee method to find the best K value. K defaults to five if there is no best.
+            var k = KneedleAlgorithm.CalculateKneePoints(x, y, CurveDirection.Decreasing, Curvature.Counterclockwise) ?? 5;
             Debug.Assert(k != null, nameof(k) + " != null");
-            var chosenKMeans = kMeansFromK[(int)Math.Floor((float)k)];
+            KMeans chosenKMeans = kMeansFromK[(int)Math.Floor((float)k)];
 
             return chosenKMeans.Means.Select(i => new Lab((float)i[0], (float)i[1], (float)i[2]))
                 .Select(newLab => new UberColor(newLab)).ToList();
